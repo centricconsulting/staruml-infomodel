@@ -1,5 +1,5 @@
 {
-    "name": "centric.infomodel.html",
+    "name": "com.centric.infomodel.html",
     "title": "Centric Information Model HTML",
     "description": "Exports UML class diagram to Information Model HTML documentation.",
     "homepage": "https://github.com/staruml/HelloWorld",
