@@ -10,7 +10,7 @@
         "email": "jeff.kanel@centricconsulting.com",
         "url": "https://github.com/jeff.kanel"
     },
-    "license": "Centric Consulting",
+    "license": "MIT",
     "engines": {
         "staruml": ">=2.0.0"
     }
