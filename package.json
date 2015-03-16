@@ -1,0 +1,17 @@
+{
+    "name": "centric.information-model",
+    "title": "Centric Information Model HTML",
+    "description": "Exports UML class diagram to Information Model HTML documentation.",
+    "homepage": "https://github.com/staruml/HelloWorld",
+    "version": "0.9.0",
+    "keywords": ["Centric", "Information","Model"],
+    "author": {
+        "name": "Jeff Kanel",
+        "email": "jeff.kanel@centricconsulting.com",
+        "url": "https://github.com/jeff.kanel"
+    },
+    "license": "Centric Consulting",
+    "engines": {
+        "staruml": ">=2.0.0"
+    }
+}
