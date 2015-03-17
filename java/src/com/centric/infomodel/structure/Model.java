@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 public class Model extends ProjectElement {
 	
 	public List<Diagram> Diagrams = new ArrayList<Diagram>();
+	public List<Class> Classes = new ArrayList<Class>();
 	
 	public Model(JsonObject json)
 	{
@@ -29,7 +30,10 @@ public class Model extends ProjectElement {
 		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
 		this.parentRefId = ProjectElement.getParentRef(json);
 		
-		JsonArray JsonResults = json.getJsonArray("ownedElements");
+		JsonArray JsonResults;
+
+		
+		JsonResults = json.getJsonArray("ownedElements");
 		
 		for(int n = 0; n < JsonResults.size(); n++)
 		{
@@ -38,6 +42,10 @@ public class Model extends ProjectElement {
 			if(JsonResult.getString("_type").equals("UMLClassDiagram"))
 			{
 				this.Diagrams.add(new Diagram(JsonResult));
+				
+			} else if(JsonResult.getString("_type").equals("UMLClass"))
+			{
+				this.Classes.add(new Class(JsonResult));
 			}
 		}	
 	}
@@ -68,7 +76,11 @@ public class Model extends ProjectElement {
 		{
 			this.Diagrams.get(n).populateXmlElement(childElement);
 		}
-		
+
+		for(int n = 0; n < this.Classes.size(); n++)
+		{
+			this.Classes.get(n).populateXmlElement(childElement);
+		}
 		
 		parentElement.appendChild(childElement);
 			

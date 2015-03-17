@@ -72,10 +72,21 @@ public class Diagram extends ProjectElement {
 		newElement2.appendChild(doc.createTextNode(this.documentation));
 		childElement.appendChild(newElement2);
 		
+		// add element
+		newElement2 = doc.createElement("is-default");
+		newElement2.appendChild(doc.createTextNode(ProjectElement.getBooleanString(this.isDefault)));
+		childElement.appendChild(newElement2);		
+		
+		// add element
+		newElement2 = doc.createElement("is-visible");
+		newElement2.appendChild(doc.createTextNode(ProjectElement.getBooleanString(this.isVisible)));
+		childElement.appendChild(newElement2);		
+		
+		Element newElementX;
 		
 		for(int n = 0; n < this.ContainedClassIds.size(); n++)
 		{
-			Element newElementX = doc.createElement("diagram-class");
+			newElementX = doc.createElement("diagram-class");
 			newElementX.setAttribute("class-id", this.ContainedClassIds.get(n));	
 			childElement.appendChild(newElementX);
 		}
