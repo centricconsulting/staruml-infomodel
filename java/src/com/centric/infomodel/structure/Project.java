@@ -1,42 +1,53 @@
 package com.centric.infomodel.structure;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
+import javax.xml.parsers.ParserConfigurationException;
 
-public class Project  extends Element {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import com.centric.infomodel.html.Application;
+
+public class Project  extends ProjectElement {
 	
 	public Date modifiedDate;
 	public String author;
 	public String copyright;
 	public String version;
+	public String fileName;
+	public String filePath;
 	
 	public List<Model> Models = new ArrayList<Model>();
 	
 	
-	public Project(JsonObject json, Date modifiedDate)
+	public Project(JsonObject json, String jsonFilePath) throws ParserConfigurationException
 	{
-		populate(json, modifiedDate);	   			
+		populate(json, jsonFilePath);	   			
 	}
 	
-	public void populate(JsonObject json, Date modifiedDate)
+	public void populate(JsonObject json, String jsonFilePath) throws ParserConfigurationException
 	{
-
-		this.modifiedDate = modifiedDate;
+		
+		this.filePath = jsonFilePath;		
+		this.modifiedDate = Application.getFileModifiedDate(jsonFilePath);
+		this.fileName = Application.getFileName(jsonFilePath);
 		
 		// Required
 		this.name = json.getString("name");
 		this.id = json.getString("_id");
 	    
 		// optional
-		this.documentation = json.getString("documentation", null);
-	    this.author = json.getString("author", null);
-	    this.copyright = json.getString("copyright", null);	
-	    this.version = json.getString("version", null);
-		
+		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
+	    this.author = json.getString("author", ProjectElement.EMPTY_STRING);
+	    this.copyright = json.getString("copyright", ProjectElement.EMPTY_STRING);	
+	    this.version = json.getString("version", ProjectElement.EMPTY_STRING);
+
 		JsonArray JsonResults = json.getJsonArray("ownedElements");
 		
 		for(int n = 0; n < JsonResults.size(); n++)
@@ -50,13 +61,70 @@ public class Project  extends Element {
 		}
 	}
 	
-	public String getXML()
+	public void populateXmlElement(Document doc) throws ParserConfigurationException
 	{
-		return "";
+		
+		// spawn the top element
+		Element childElement = doc.createElement("project");
+		
+		// add properties
+		childElement.setAttribute("id",this.id);
+		
+		// add element
+		Element newElement1 = doc.createElement("name");
+		newElement1.appendChild(doc.createTextNode(this.name));
+		childElement.appendChild(newElement1);
+		
+		// add element
+		Element newElementMD = doc.createElement("modified-date");
+		newElementMD.appendChild(doc.createTextNode(new SimpleDateFormat("MMMM d, yyyy h:mma z").format(this.modifiedDate)));
+		childElement.appendChild(newElementMD);		
+		
+		// add element
+		Element newElement2 = doc.createElement("documentation");
+		newElement2.appendChild(doc.createTextNode(this.documentation));
+		childElement.appendChild(newElement2);
+		
+
+		// add element
+		Element newElement3 = doc.createElement("author");
+		newElement3.appendChild(doc.createTextNode(this.author));
+		childElement.appendChild(newElement3);
+		
+
+		// add element
+		Element newElement4 = doc.createElement("copyright");
+		newElement4.appendChild(doc.createTextNode(this.copyright));
+		childElement.appendChild(newElement4);
+		
+
+		// add element
+		Element newElement5 = doc.createElement("version");
+		newElement5.appendChild(doc.createTextNode(this.version));
+		childElement.appendChild(newElement5);
+		
+		// add element
+		Element newElementFP = doc.createElement("file-path");
+		newElementFP.appendChild(doc.createTextNode(this.filePath));
+		childElement.appendChild(newElementFP);
+		
+		// add element
+		Element newElementFN = doc.createElement("file-name");
+		newElementFN.appendChild(doc.createTextNode(this.fileName));
+		childElement.appendChild(newElementFN);		
+				
+		
+		// append models
+		for(int n = 0; n < this.Models.size(); n++)
+		{
+			this.Models.get(n).populateXmlElement(childElement);
+		}
+	
+		doc.appendChild(childElement);
+			
 		
 	}
 	
-	
-	
+
 	
 }

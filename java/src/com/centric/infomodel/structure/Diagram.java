@@ -1,11 +1,20 @@
 package com.centric.infomodel.structure;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-public class Diagram extends Element {
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-	public boolean isDefault = false; 
+public class Diagram extends ProjectElement {
+
+	public boolean isDefault = false;
+	public boolean isVisible = false;
+	
+	public List<String> ContainedClassIds = new ArrayList<String>();
 	
 	public Diagram(JsonObject json)
 	{
@@ -20,24 +29,59 @@ public class Diagram extends Element {
 		this.id = json.getString("_id");
 		
 		// optional
-		this.documentation = json.getString("documentation", null);
+		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
 		this.isDefault= json.getBoolean("defaultDiagram", false);
-		this.parentId = Element.getParentRef(json);
+		this.isVisible = json.getBoolean("visible", false);
+		this.parentRefId = ProjectElement.getParentRef(json);
+
 		
-		
-		JsonArray JsonResults = json.getJsonArray("ownedElements");
-		
-		/*
+		JsonArray JsonResults = json.getJsonArray("ownedViews");
+				
 		for(int n = 0; n < JsonResults.size(); n++)
 		{
 			JsonObject JsonResult = JsonResults.getJsonObject(n);
 			
-			if(JsonResult.getString("_type").equals("UMLClassDiagram"))
+			if(JsonResult.getString("_type").equals("UMLClassView"))
 			{
-				this.Diagrams.add(new Diagram(JsonResult));
+				this.ContainedClassIds.add(ProjectElement.getRef(JsonResult, "model"));
 			}
 		}
-		*/	
+			
+	}
+	
+	public void populateXmlElement(Element parentElement)
+	{
+
+		Document doc = parentElement.getOwnerDocument();
+		
+		// spawn the top element
+		Element childElement = doc.createElement("diagram");
+		childElement.setAttribute("id",this.id);
+		childElement.setAttribute("model-id",this.parentRefId);
+		childElement.setAttribute("parent-ref-id",this.parentRefId);
+		
+
+		// add element
+		Element newElement1 = doc.createElement("name");
+		newElement1.appendChild(doc.createTextNode(this.name));
+		childElement.appendChild(newElement1);
+		
+		
+		// add element
+		Element newElement2 = doc.createElement("documentation");
+		newElement2.appendChild(doc.createTextNode(this.documentation));
+		childElement.appendChild(newElement2);
+		
+		
+		for(int n = 0; n < this.ContainedClassIds.size(); n++)
+		{
+			Element newElementX = doc.createElement("diagram-class");
+			newElementX.setAttribute("class-id", this.ContainedClassIds.get(n));	
+			childElement.appendChild(newElementX);
+		}
+		
+		
+		parentElement.appendChild(childElement);
 	}
 	
 }
