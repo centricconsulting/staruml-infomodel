@@ -7,10 +7,12 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
  
 
+
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class Model extends ProjectElement {
+public class Model extends ElementAbstract {
 	
 	public List<Diagram> Diagrams = new ArrayList<Diagram>();
 	public List<Class> Classes = new ArrayList<Class>();
@@ -23,12 +25,12 @@ public class Model extends ProjectElement {
 	public void populate(JsonObject json)
 	{
 		// required
-		this.name = json.getString("name");
-		this.id = json.getString("_id");
+		this.name = json.getString("name", ElementAbstract.UNKNOWN_STRING);
+		this.id = json.getString("_id", ElementAbstract.EMPTY_STRING);
 		
 		// optional
-		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
-		this.parentRefId = ProjectElement.getParentRef(json);
+		this.documentation = json.getString("documentation", ElementAbstract.EMPTY_STRING);
+		this.parentRefId = ElementAbstract.getParentRef(json);
 		
 		JsonArray JsonResults;
 
@@ -68,6 +70,7 @@ public class Model extends ProjectElement {
 		
 		// add element
 		Element newElement2 = doc.createElement("documentation");
+		newElement2.setAttribute("is-url", ElementAbstract.isUrlString(this.documentation));
 		newElement2.appendChild(doc.createTextNode(this.documentation));
 		childElement.appendChild(newElement2);		
 		

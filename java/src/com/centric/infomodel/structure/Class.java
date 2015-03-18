@@ -9,11 +9,12 @@ import javax.json.JsonObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class Class extends ProjectElement {
+public class Class extends ElementAbstract {
 	
 	public List<Attribute> Attributes = new ArrayList<Attribute>();
 	public List<Operation> Operations = new ArrayList<Operation>();
-	public List<Enum> Enums = new ArrayList<Enum>();	
+	public List<Enum> Enums = new ArrayList<Enum>();
+	public List<Association> Associations = new ArrayList<Association>();
 	
 	public Class(JsonObject json)
 	{
@@ -24,12 +25,12 @@ public class Class extends ProjectElement {
 	{
 		
 		// required
-		this.name = json.getString("name");
-		this.id = json.getString("_id");
+		this.name = json.getString("name", ElementAbstract.UNKNOWN_STRING);
+		this.id = json.getString("_id", ElementAbstract.EMPTY_STRING);
 		
 		// optional
-		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
-		this.parentRefId = ProjectElement.getParentRef(json);
+		this.documentation = json.getString("documentation", ElementAbstract.EMPTY_STRING);
+		this.parentRefId = ElementAbstract.getParentRef(json);
 		
 		// populate attributes
 		JsonArray JsonResults;
@@ -81,6 +82,22 @@ public class Class extends ProjectElement {
 				}
 			}
 		}
+		
+		// populate associations
+		JsonResults = json.getJsonArray("ownedElements");
+				
+		if (JsonResults != null)
+		{		
+			for(n = 0; n < JsonResults.size(); n++)
+			{
+				JsonObject JsonResult = JsonResults.getJsonObject(n);
+				
+				if(JsonResult.getString("_type").equals("UMLAssociation"))
+				{
+					this.Associations.add(new Association(JsonResult));
+				}
+			}
+		}
 						
 	}
 	
@@ -103,6 +120,7 @@ public class Class extends ProjectElement {
 				
 		// add element
 		Element newElement2 = doc.createElement("documentation");
+		newElement2.setAttribute("is-url", ElementAbstract.isUrlString(this.documentation));
 		newElement2.appendChild(doc.createTextNode(this.documentation));
 		childElement.appendChild(newElement2);
 				
@@ -126,6 +144,12 @@ public class Class extends ProjectElement {
 			this.Enums.get(n).populateXmlElement(childElement);
 		}
 		
+		
+		// populate associations xml
+		for(n = 0; n < this.Associations.size(); n++)
+		{
+			this.Associations.get(n).populateXmlElement(childElement);
+		}
 		
 		parentElement.appendChild(childElement);
 	}

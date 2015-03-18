@@ -1,13 +1,9 @@
 package com.centric.infomodel.html;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -22,6 +18,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Document;
 
 import com.centric.infomodel.structure.Project;
@@ -30,60 +27,49 @@ public class Application {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException  {
 		
+    	// argument inputs
 		String JsonFilePath = "C:\\Users\\jeff.kanel\\Temporary\\Untitled.mdj";
-		//String xsltTemplateFilePath = "C:\\Users\\jeff.kanel\\AppData\\Roaming\\StarUML\\extensions\\user\\centric.information-model\\template.xslt";
-		//String targetHtmlFilePath = "C:\\Users\\jeff.kanel\\Temporary\\target\\infomodel.html";
-		//String targetXmlFilePath = "C:\\Users\\jeff.kanel\\Temporary\\target\\infomodel.xml";
+		String HtmlFilePath = "C:\\Users\\jeff.kanel\\Temporary\\target\\test.html";
+		String XsltFilePath = "C:\\Working\\GitHub\\staruml-infomodel\\centric.infomodel.xslt";
+
+		// build xml file path
+		String HtmlFileBaseName = FilenameUtils.getBaseName(HtmlFilePath);
+		String HtmlFolderPath = FilenameUtils.getFullPath(HtmlFilePath);
+		String XmlFileName = HtmlFileBaseName + ".xml";		
+		String XmlFilePath = FilenameUtils.concat(HtmlFolderPath, XmlFileName);
 		
-		// generate the xml
-		//StringReader xmlStringReader = JsonToXml.generateXmlStringReader(JsonFilePath);
-		InputStream fis = new FileInputStream(JsonFilePath);       
-        JsonReader jsonReader = Json.createReader(fis);        
-        JsonObject ProjectJsonObject = jsonReader.readObject();
-		jsonReader.close();
-		fis.close();
+		System.out.println(XmlFilePath);
 		
+		// populate the project structure
+		Project project = new Project(getDocumentJsonObject(JsonFilePath), JsonFilePath);
 		
-		Project project = new Project(ProjectJsonObject, JsonFilePath);
-		
+		// retrieve the xml document
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document doc = docBuilder.newDocument();		
 		
 		project.populateXmlElement(doc);
 		
-		String x = Application.getXmlFromDocument(doc);
+		// generate the html document
+		Builder.transformXml(doc, XsltFilePath, HtmlFilePath);
+		
+		// generate the xml document
+		Builder.saveXml(doc, XmlFilePath);
 		
 		
-		System.out.println(x);
-		
-		/*
-		File xmlFile = new File(targetXmlFilePath);
-		
-		FileWriter xmlFileWriter = new FileWriter(xmlFile);
-		xmlFileWriter.write(xml);
-		xmlFileWriter.flush();
-		xmlFileWriter.close();
-		
-		*/
-		
-		// transform
-		// Builder.transform(xmlStringReader, xsltTemplateFilePath, targetHtmlFilePath);
 		
 	}
-    
 
-	public static Date getFileModifiedDate(String filePath)
-	{
-		File file = new File(filePath);
-		return new Date(file.lastModified());		
-	}
-	
-	public static String getFileName(String filePath)
-	{		
-		Path p = Paths.get(filePath);
-		return p.getFileName().toString();
-	}
+    public static JsonObject getDocumentJsonObject(String JsonFilePath) throws IOException
+    {
+		InputStream fis = new FileInputStream(JsonFilePath);       
+        JsonReader jsonReader = Json.createReader(fis);        
+        JsonObject ProjectJsonObject = jsonReader.readObject();
+		jsonReader.close();
+		fis.close();
+		
+		return ProjectJsonObject;
+    }
 	
 	public static String getXmlFromDocument(Document doc) throws TransformerException
 	{

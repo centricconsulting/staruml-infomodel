@@ -9,7 +9,7 @@ import javax.json.JsonObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class Diagram extends ProjectElement {
+public class Diagram extends ElementAbstract {
 
 	public boolean isDefault = false;
 	public boolean isVisible = false;
@@ -25,14 +25,14 @@ public class Diagram extends ProjectElement {
 	{
 		
 		// required
-		this.name = json.getString("name");
-		this.id = json.getString("_id");
+		this.name = json.getString("name", ElementAbstract.UNKNOWN_STRING);
+		this.id = json.getString("_id", ElementAbstract.EMPTY_STRING);
 		
 		// optional
-		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
+		this.documentation = json.getString("documentation", ElementAbstract.EMPTY_STRING);
 		this.isDefault= json.getBoolean("defaultDiagram", false);
 		this.isVisible = json.getBoolean("visible", false);
-		this.parentRefId = ProjectElement.getParentRef(json);
+		this.parentRefId = ElementAbstract.getParentRef(json);
 
 		
 		JsonArray JsonResults = json.getJsonArray("ownedViews");
@@ -43,7 +43,7 @@ public class Diagram extends ProjectElement {
 			
 			if(JsonResult.getString("_type").equals("UMLClassView"))
 			{
-				this.ContainedClassIds.add(ProjectElement.getRef(JsonResult, "model"));
+				this.ContainedClassIds.add(ElementAbstract.getRef(JsonResult, "model"));
 			}
 		}
 			
@@ -69,17 +69,18 @@ public class Diagram extends ProjectElement {
 		
 		// add element
 		Element newElement2 = doc.createElement("documentation");
+		newElement2.setAttribute("is-url", ElementAbstract.isUrlString(this.documentation));
 		newElement2.appendChild(doc.createTextNode(this.documentation));
 		childElement.appendChild(newElement2);
 		
 		// add element
 		newElement2 = doc.createElement("is-default");
-		newElement2.appendChild(doc.createTextNode(ProjectElement.getBooleanString(this.isDefault)));
+		newElement2.appendChild(doc.createTextNode(ElementAbstract.getBooleanString(this.isDefault)));
 		childElement.appendChild(newElement2);		
 		
 		// add element
 		newElement2 = doc.createElement("is-visible");
-		newElement2.appendChild(doc.createTextNode(ProjectElement.getBooleanString(this.isVisible)));
+		newElement2.appendChild(doc.createTextNode(ElementAbstract.getBooleanString(this.isVisible)));
 		childElement.appendChild(newElement2);		
 		
 		Element newElementX;

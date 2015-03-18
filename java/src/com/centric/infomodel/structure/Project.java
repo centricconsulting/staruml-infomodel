@@ -1,5 +1,6 @@
 package com.centric.infomodel.structure;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,9 +13,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.centric.infomodel.html.Application;
-
-public class Project  extends ProjectElement {
+public class Project  extends ElementAbstract {
 	
 	public Date modifiedDate;
 	public String author;
@@ -34,19 +33,21 @@ public class Project  extends ProjectElement {
 	public void populate(JsonObject json, String jsonFilePath) throws ParserConfigurationException
 	{
 		
+		File jsonFile = new File(jsonFilePath);
+		
 		this.filePath = jsonFilePath;		
-		this.modifiedDate = Application.getFileModifiedDate(jsonFilePath);
-		this.fileName = Application.getFileName(jsonFilePath);
+		this.modifiedDate = new Date(jsonFile.lastModified());
+		this.fileName = jsonFile.getName();
 		
 		// Required
-		this.name = json.getString("name");
-		this.id = json.getString("_id");
+		this.name = json.getString("name", ElementAbstract.UNKNOWN_STRING);
+		this.id = json.getString("_id", ElementAbstract.EMPTY_STRING);
 	    
 		// optional
-		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
-	    this.author = json.getString("author", ProjectElement.EMPTY_STRING);
-	    this.copyright = json.getString("copyright", ProjectElement.EMPTY_STRING);	
-	    this.version = json.getString("version", ProjectElement.EMPTY_STRING);
+		this.documentation = json.getString("documentation", ElementAbstract.EMPTY_STRING);
+	    this.author = json.getString("author", ElementAbstract.EMPTY_STRING);
+	    this.copyright = json.getString("copyright", ElementAbstract.EMPTY_STRING);	
+	    this.version = json.getString("version", ElementAbstract.EMPTY_STRING);
 
 		JsonArray JsonResults = json.getJsonArray("ownedElements");
 		
@@ -82,6 +83,7 @@ public class Project  extends ProjectElement {
 		
 		// add element
 		Element newElement2 = doc.createElement("documentation");
+		newElement2.setAttribute("is-url", ElementAbstract.isUrlString(this.documentation));
 		newElement2.appendChild(doc.createTextNode(this.documentation));
 		childElement.appendChild(newElement2);
 		

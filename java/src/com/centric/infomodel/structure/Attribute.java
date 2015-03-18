@@ -5,7 +5,7 @@ import javax.json.JsonObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class Attribute extends ProjectElement {
+public class Attribute extends ElementAbstract {
 
 	public String stereotypeName;
 	public String stereotypeId;
@@ -21,17 +21,17 @@ public class Attribute extends ProjectElement {
 	public void populate(JsonObject json)
 	{
 		// required
-		this.name = json.getString("name");
-		this.id = json.getString("_id");
+		this.name = json.getString("name", ElementAbstract.UNKNOWN_STRING);
+		this.id = json.getString("_id", ElementAbstract.EMPTY_STRING);
 		
 		// optional
-		this.documentation = json.getString("documentation", ProjectElement.EMPTY_STRING);
-		this.parentRefId = ProjectElement.getParentRef(json);
+		this.documentation = json.getString("documentation", ElementAbstract.EMPTY_STRING);
+		this.parentRefId = ElementAbstract.getParentRef(json);
 		this.isUnique= json.getBoolean("isUnique", false);
 		this.multiplicity = json.getString("multiplicity","1");
-		this.stereotypeName = json.getString("sterotype",ProjectElement.EMPTY_STRING);
-		this.stereotypeId = ProjectElement.getRef(json, "stereotype");
-		this.dataType = json.getString("type",ProjectElement.EMPTY_STRING);
+		this.stereotypeName = json.getString("sterotype",ElementAbstract.EMPTY_STRING);
+		this.stereotypeId = ElementAbstract.getRef(json, "stereotype");
+		this.dataType = json.getString("type",ElementAbstract.EMPTY_STRING);
 		
 	}
 	
@@ -46,6 +46,7 @@ public class Attribute extends ProjectElement {
 		childElement.setAttribute("id",this.id);
 		childElement.setAttribute("class-id",this.parentRefId);
 		childElement.setAttribute("parent-ref-id",this.parentRefId);
+		childElement.setAttribute("stereotype-class-id",this.stereotypeId);
 		
 
 		// add element
@@ -55,6 +56,7 @@ public class Attribute extends ProjectElement {
 				
 		// add element
 		Element newElement2 = doc.createElement("documentation");
+		newElement2.setAttribute("is-url", ElementAbstract.isUrlString(this.documentation));
 		newElement2.appendChild(doc.createTextNode(this.documentation));
 		childElement.appendChild(newElement2);
 				
@@ -70,11 +72,7 @@ public class Attribute extends ProjectElement {
 		Element newElement4 = doc.createElement("stereotype-name");
 		newElement4.appendChild(doc.createTextNode(this.stereotypeName));
 		childElement.appendChild(newElement4);
-						
-		// add element
-		Element newElement5 = doc.createElement("stereotype-class-id");
-		newElement5.appendChild(doc.createTextNode(this.stereotypeId));
-		childElement.appendChild(newElement5);	
+
 		
 		// add element
 		Element newElement6 = doc.createElement("multiplicity");
