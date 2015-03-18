@@ -5,11 +5,17 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 1. From within StarUML, select the menu File >> Export >> Information Model Html...
 2. Enter a target Html filename.  It is recommended that target folder be dedicated for this purpose.
 3. The extension will automatically generate the following:
+
    a. Target Html file.
+   
    b. Xml file having the same name as the Html file.
+   
    c. Resources folder containing CSS, java script and graphics files.
+   
    d. Diagrams folder containing SVG diagrams from your StarUML project.
+   
 4. Open the Html file in any browser.
+
 5. The Xml file may be used as a data source for MS Word or other document merge technologies.
 
 # Installation Option #1 - StarUML Extension Manager
