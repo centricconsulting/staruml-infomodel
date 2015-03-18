@@ -1,5 +1,6 @@
 package com.centric.infomodel.html;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,18 +28,69 @@ public class Application {
 
     public static void main(String[] args) throws IOException, ParserConfigurationException, TransformerException  {
 		
+    	String JsonFilePath, HtmlFilePath, XsltFilePath;
+    	
+    	if(args.length <3)
+    	{
+    		throw new IllegalArgumentException("Insufficient argements were provided on the command line.");
+    	}
+    	    	
     	// argument inputs
-		String JsonFilePath = "C:\\Users\\jeff.kanel\\Temporary\\Untitled.mdj";
-		String HtmlFilePath = "C:\\Users\\jeff.kanel\\Temporary\\target\\test.html";
-		String XsltFilePath = "C:\\Working\\GitHub\\staruml-infomodel\\centric.infomodel.xslt";
-
+    	try
+    	{
+    		JsonFilePath = normalizePath(args[0]);
+    		File f = new File(JsonFilePath);
+    		
+    		if(!f.exists())
+    		{
+    			throw new IllegalArgumentException("The source file \"" + args[0] + "\" does not exist.");
+    		} else if (f.isDirectory()) {
+    			throw new IllegalArgumentException("The source file \"" + args[0] + "\" is not a valid file.");
+    		}
+    	} catch (Exception e) {
+    		throw new IllegalArgumentException("The source file \"" + args[0] + "\" is invalid. " + e.getMessage());
+    	}
+		
+    	
+    	// argument inputs
+    	try
+    	{
+    		HtmlFilePath = normalizePath(args[1]);
+    		File f = new File(HtmlFilePath);
+    		
+    		if(f.isDirectory())
+    		{
+    			throw new IllegalArgumentException("The target file \"" + args[1] + "\" is not a valid file.");
+    		} 
+    		
+    	} catch (Exception e) {
+    		throw new IllegalArgumentException("The target file \"" + args[1] + "\" is invalid. " + e.getMessage());
+    	}
+    	
+    	
+    	// argument inputs
+    	try
+    	{
+    		XsltFilePath = normalizePath(args[2]);
+    		File f = new File(XsltFilePath);
+    		
+    		if(!f.exists())
+    		{
+    			throw new IllegalArgumentException("The transform (xslt) file \"" + args[2] + "\" does not exist.");
+    		} else if (f.isDirectory()) {
+    			throw new IllegalArgumentException("The transform (xslt) file \"" + args[2] + "\" is not a valid file.");
+    		}
+    		
+    	} catch (Exception e) {
+    		throw new IllegalArgumentException("The target file \"" + args[2] + "\" is invalid. " + e.getMessage());
+    	}
+ 
 		// build xml file path
 		String HtmlFileBaseName = FilenameUtils.getBaseName(HtmlFilePath);
 		String HtmlFolderPath = FilenameUtils.getFullPath(HtmlFilePath);
 		String XmlFileName = HtmlFileBaseName + ".xml";		
 		String XmlFilePath = FilenameUtils.concat(HtmlFolderPath, XmlFileName);
-		
-		System.out.println(XmlFilePath);
+
 		
 		// populate the project structure
 		Project project = new Project(getDocumentJsonObject(JsonFilePath), JsonFilePath);
@@ -60,6 +112,17 @@ public class Application {
 		
 	}
 
+    private static String normalizePath(String path)
+    {
+    	if (System.getProperty("os.name").startsWith("Windows"))
+    	{
+    		return path.replace("/", "\\");
+    	} else {
+    		return path;
+    	}
+    }
+
+    
     public static JsonObject getDocumentJsonObject(String JsonFilePath) throws IOException
     {
 		InputStream fis = new FileInputStream(JsonFilePath);       
