@@ -12,14 +12,15 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 4. Open the Html file in any browser.
 5. The Xml file may be used as a data source for MS Word or other document merge technologies.
 
-## Installation Option #1 - StarUML Extension Manager
+## Installation Options
+### #1 - StarUML Extension Manager
 1. Open the StarUML application.
 2. Select the menu Tools >> Extension Manager...
 3. Click the "Install From Url" button.
 4. In the "Install Extension" field, enter "http://github.com/jkanel/staruml-infomodel/archive/master.zip" and click the "Install" button.
 5. The extension will automatically install.
 
-## Installation Option #2 - Manual Windows Installation
+### #2 - Manual Windows Installation
 1. Open Windows Explorer and navigate to "C:\Users\\{user}\AppData\Roaming\StarUML\extensions\user" where {user} is your windows login user name.
 2. Download the file http://github.com/jkanel/staruml-infomodel/archive/master.zip to your local drive.
 3. Open the zip archive and extract the "staruml-infomodel-master" folder to the "user" folder (see #1, above).
