@@ -15,7 +15,6 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
    d. Diagrams folder containing SVG diagrams from your StarUML project.
    
 4. Open the Html file in any browser.
-
 5. The Xml file may be used as a data source for MS Word or other document merge technologies.
 
 # Installation Option #1 - StarUML Extension Manager
