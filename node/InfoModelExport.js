@@ -112,7 +112,7 @@ maxerr: 50, node: true */
     function executeCommand(cmd,wkdir) 
     {
 
-			var normalizedPath = path.Win32.normalize(wkdir);
+			var normalizedPath = wkdir;
 			console.log("Working Directory: " + normalizedPath);
     
     	var args = {
@@ -125,11 +125,12 @@ maxerr: 50, node: true */
 				if (error !== null) 
 				{
 					console.log('Command execute failed: ' + stderr);
+					throw error;
 					return stderr;		      
 				}
 				else
 				{
-					console.log('Successfully executed command.' + cmd);		    
+					console.log('Successfully executed command.' + cmd);					
 					return stdout;							
 				}
 		    

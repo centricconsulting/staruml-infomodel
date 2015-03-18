@@ -54,7 +54,8 @@ define(function (require, exports, module) {
 	// get module directory
 	var ModuleDirectory = FileUtils.stripTrailingSlash(ExtensionUtils.getModulePath(module));
 	
-
+  // get xslt file
+	var XsltFilePath = ModuleDirectory + "/centric.infomodel.xslt";
 	
 	// get source resource directory
 	var SourceResourcePath = ModuleDirectory + '/resources';
@@ -69,7 +70,10 @@ define(function (require, exports, module) {
 	var DiagramFilePrefix = 'diagram_';
 	
 	// specify process command  
-	var XsltProcessExecutable = "msxsl_transform.bat";
+	var ExecuteFolderName = "java";
+	
+	// specify process command  
+	var XsltProcessExecutable = "java -jar com.centric.infomodel.jar";
 
   // #######################################################  
   // Export Logic
@@ -94,7 +98,7 @@ define(function (require, exports, module) {
     
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
-    var command = buildProcessCommand(ProjectFilePath, TargetFilePath,TargetResourcePath, TargetDiagramPath, DiagramFilePrefix);
+    var command = buildProcessCommand(ProjectFilePath, TargetFilePath, XsltFilePath);
     executeProcess(command);
     
     return result.promise();
@@ -176,16 +180,25 @@ define(function (require, exports, module) {
   // Execute External Process
   // #######################################################
 
-  function buildProcessCommand(projectFilePath, targetFilePath, resourcesFolderName, diagramFolderName, diagramFilePrefix) {
-  	var command = XsltProcessExecutable;
+  function buildProcessCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
+  	var command = XsltProcessExecutable + " "
+  	+ "\"" + projectFilePath + "\" "
+  	+ "\"" + targetFilePath + "\" "
+  	+ "\"" + sourceXsltFilePath + "\" ";
+  	
   	console.log("buildProcessCommand::command = " + command);
+  	
   	return command;  	
   }
   
   function executeProcess(command) {  	
 		// execute
 		console.log("executeProcess::command = " + command);	 		
-		var buffer = InfoModelExportDomain.exec("executeCommand", command, ModuleDirectory);  	  	
+		
+		var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
+		console.log("executeProcess::ExecuteDirectory = " + ExecuteDirectory);	
+ 		
+		var buffer = InfoModelExportDomain.exec("executeCommand", command, ExecuteDirectory);  	  	
   }
 	
   // #######################################################  
