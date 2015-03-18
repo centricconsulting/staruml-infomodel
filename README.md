@@ -1,5 +1,5 @@
 # staruml-infomodel
-StarUML Extension. Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file. Validated for StarUML version 2.1.1.  Java source project is http://github.com/jkanel/star-infomodel-java.
+StarUML Extension. Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file. Validated for StarUML version 2.1.1.  Java source project is http://github.com/jkanel/staruml-infomodel-java.
 
 ## Extension Use
 1. From within StarUML, select the menu File >> Export >> Information Model Html...
