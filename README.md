@@ -28,5 +28,5 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 ## Customization
 The following methods of customization are supported.
 
-1. **Xslt File**. You can alter the Xslt file located in your extensions folder ""C:\Users\\{user}\AppData\Roaming\StarUML\extensions\user\star-infomodel" to produce new transformations.
+1. **Xslt File**. You can alter the Xslt file located in your extensions folder ""C:\Users\\{user}\AppData\Roaming\StarUML\extensions\user\star-infomodel" to produce new Html transformations.
 2. **Resource Folder Contents**.  The "resoures" folder and its contents are copied in their entirety to the target Html folder.  These may be referenced by Xslt and the subsequent Html file. The "resources" folder is located in the extension folder.
