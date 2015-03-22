@@ -10,9 +10,9 @@ BODY
 {
   margin: 0;
   padding: 0;
-  font-family: 'Open Sans'
-    'Segoe UI', Verdana, 'Myriad Pro', /* windows fonts */
-    'Myriad'; /* mac fonts */
+  font-family: "Open Sans",
+    "Myriad Pro","Segoe UI", Verdana, "Myriad Pro", /* windows fonts */
+    "Myriad"; /* mac fonts */
   font-size: 12px;
   font-weight: 400;
 }
