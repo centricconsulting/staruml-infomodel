@@ -14,7 +14,7 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 
 **NOTE: Compatible with Java Runtime Environment 1.6.0.45 (Oracle 6u45).**
 
-## Installation Options
+## Extensin Installation Options
 ### #1 - StarUML Extension Manager
 1. Open the StarUML application.
 2. Select the menu Tools >> Extension Manager...
