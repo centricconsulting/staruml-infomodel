@@ -7,254 +7,223 @@
 
     <html>
       <head>
+
+        <link rel="shortcut icon" href="resources/favicon.ico" type="image/x-icon" />
+
         <title>
           <xsl:value-of select="//project/name"/>
         </title>
-        <style type="text/css">
-          <xsl:call-template name="stylesheet" />
-        </style>
+
         <script type="text/javascript">
           <xsl:call-template name="script" />
         </script>
+
+        <link href="resources/centric.infomodel.css" rel="stylesheet" type="text/css" />
+      
       </head>
       <body>
-        <span class="header-label">
-          <xsl:value-of select="//project/name"/>
-        </span>
+
+
+        <nav id="titlebar">
+
+          <ul>
+            <li>
+              <a href="#">
+                <img src="resources/logo.png" />
+              </a>
+            </li>
+            <li>
+              <a href="#" onclick="javascript:displayElement('project-{id}');">
+                <xsl:value-of select="//project/name"/>
+              </a>
+            </li>
+
+            <xsl:if test="//project/version">
+            <li>
+              Version <xsl:value-of select="//project/version"/>
+            </li>
+            </xsl:if>
+           
+          </ul>
+
+        </nav>
+
+        <nav id="menubar">
+
+          <ul>
+
+            <xsl:apply-templates select="//project/model" mode="nav">
+              <xsl:sort select="name" order="ascending"/> 
+            </xsl:apply-templates>
+
+          </ul>
+
+        </nav>
+
+        <div id="main-container">
+
+          <section id="model-container">
+            <xsl:apply-templates select="//project/model" mode="model-container">
+              <xsl:sort select="name" order="ascending"/>
+            </xsl:apply-templates>     
+          </section>
+
+          <section id="content-container">
+          Contents
+          </section>
+
+        </div>
+
+
+        <footer>
+          test footer
+        </footer>
+
       </body>
     </html>
   </xsl:template>
 
-  <xsl:template match="entity">
-    <div id="{concat('entity-',logical-name)}">
-      <table class="entity-header">
-        <tr>
-          <td>
-            <xsl:value-of select="position"/>. <xsl:value-of select="logical-name"/> <xsl:text> [Entity]</xsl:text>
-          </td>
-        </tr>
-      </table>
+  <!--
+  #################################################################
+  Navigation Templates
+  #################################################################
+  -->
 
-      <!-- main property table -->
-      <table class="entity-prop">
-        <tr>
-          <td class="label" nowrap="true">Name:</td>
-          <td class="content-primary" width="100%">
-            <xsl:value-of select="logical-name"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="label" nowrap="true">Definition:</td>
-          <td class="content" width="100%">
-            <xsl:value-of select="definition"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="label" nowrap="true">Notes:</td>
-          <td class="content" width="100%">
-            <xsl:value-of select="note"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="label" nowrap="true">Semantic:</td>
-          <td class="content" width="100%">
-            <xsl:value-of select="semantic-description"/>
-          </td>
-        </tr>
-      </table>
+  <xsl:template match="model" mode="nav">
+    
+      <li>
+        <a class="nav" href="#" onclick="javascript:displayElement('model-{id}')">
+          <img src="resources/model.png" class="nav-icon"/>
+          <span>
+            <xsl:value-of select="name"/>
+          </span>
+        </a>
+      </li>
 
-      <!-- secondary properies table -->
-      <table class="entity-prop">
-        <tr>
-          <td class="label" nowrap="true">Frame-Sensitive:</td>
-          <td class="content"  width="30%">
-            <xsl:value-of select="frame-sensitive-flag"/>
-          </td>
-          <td class="label" nowrap="true">Content-Type:</td>
-          <td class="content"  width="30%">
-            <xsl:value-of select="content-type"/>
-          </td>
-        </tr>
-        <tr>
-          <td class="label" nowrap="true">Physical Name:</td>
-          <td class="content">
-            <xsl:value-of select="physical-name"/>
-          </td>
-          <td class="label" nowrap="true">Structure Type:</td>
-          <td class="content">
-            <xsl:value-of select="structure-type"/>
-          </td>
-        </tr>
-      </table>
+      <xsl:apply-templates select="diagram" mode="nav">
+        <xsl:sort select="name"/>
+      </xsl:apply-templates>
 
-      <div id="key-groups">
-        <table class="key-group">
-          <td class="label" nowrap="true">Key Group</td>
-          <td class="label" nowrap="true">Notation</td>
-          <td class="label" nowrap="true">Function</td>
-          <td class="label" nowrap="true">Attribute List</td>
-          <xsl:apply-templates select="key-groups/key-group" />
-        </table>
-      </div>
+  </xsl:template>
 
-      <div id="attributes">
-        <xsl:apply-templates select="attributes/attribute">
-          <xsl:sort select="position" data-type="number"/>
+  <xsl:template match="diagram" mode="nav">
+
+      <li>
+        <a class="nav" href="#" onclick="javascript:displayElement('diagram-{id}')">
+          <img src="resources/diagram.png" class="nav-icon"/>
+          <span>
+            <xsl:value-of select="name"/>
+          </span>
+        </a>
+      </li>
+
+  </xsl:template>
+
+  <xsl:template match="class" mode="nav">
+
+    <li>
+      <a class="nav" href="#" onclick="javascript:displayEntity('class-{@id}');">
+        <span>
+          <xsl:value-of select="name"/>
+        </span>
+      </a>
+    </li>
+
+  </xsl:template>
+
+
+  <!--
+  #################################################################
+  Model Container Templates
+  #################################################################
+  -->
+
+  <xsl:template match="model" mode="model-container">
+   
+    <xsl:choose>
+      <xsl:when test="position()=1">
+        <xsl:variable name="display-style" select="'display:block;'"/> 
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:variable name="display-style" select="'display:none;'"/>      
+      </xsl:otherwise>
+    </xsl:choose>
+
+    <div class="model" id="model-{@id}"  style="$display-style">
+      <!-- list all the classes -->
+      <ul>
+
+        <xsl:apply-templates select="class" mode="model-container">          
+          <xsl:sort select="name"/>
         </xsl:apply-templates>
-      </div>
+      
+      </ul>
+    </div>
+
+  </xsl:template>
+
+  <xsl:template match="class" mode="model-container">
+
+    <li>
+
+      <xsl:if test="position() mod 2 = 1">
+        <xsl:attribute name="class">altcolor</xsl:attribute>
+      </xsl:if>
+
+      <a class="nav" href="#" onclick="javascript:displayEntity('class-{@id}');">
+        <span>
+          <xsl:value-of select="name"/>
+        </span>
+      </a>
+    </li>
+
+  </xsl:template>
+
+
+  <!--
+  #################################################################
+  Content Templates
+  #################################################################
+  -->
+
+  <xsl:template match="diagram" mode="content">
+    <div class="content" id="diagram-{@id}"  style="display:none;">
+      <img class="diagram" src="diagrams/diagram_{@id}.svg"></img>
     </div>
   </xsl:template>
 
-  <xsl:template match="key-group">
-    <!-- secondary properies table -->
-    <tr>
-      <td class="content-primary" nowrap="true">
-        <b>
-          <xsl:value-of select="logical-name"/>
-        </b>
-      </td>
-      <td class="content" nowrap="true">
-        <xsl:value-of select="model-name"/>
-      </td>
-      <td class="content" nowrap="true">
-        <xsl:value-of select="functional-type"/>
-      </td>
-      <td class="content">
-        <xsl:value-of select="attribute-list"/>
-      </td>
-    </tr>
-  </xsl:template>
 
-  <xsl:template match="attribute">
-    <table class="attribute-header">
-      <tr>
-        <td>
-          <xsl:value-of select="ancestor::entity/position"/>.<xsl:value-of select="position"/>.
-          <xsl:value-of select="logical-name"/> <xsl:text> [Attribute]</xsl:text>
-        </td>
-      </tr>
-    </table>
 
-    <!-- main property table -->
-    <table class="attribute-prop">
-      <tr>
-        <td class="label" nowrap="true">Name:</td>
-        <td class="content-primary" width="100%">
-          <xsl:value-of select="logical-name"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Parent:</td>
-        <td class="content-primary" width="100%">
-          <xsl:value-of select="entity-logical-name"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Definition:</td>
-        <td class="content" width="100%">
-          <xsl:value-of select="definition"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Notes:</td>
-        <td class="content" width="100%">
-          <xsl:value-of select="note"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Semantic:</td>
-        <td class="content" width="100%">
-          <xsl:value-of select="semantic-description"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Sample:</td>
-        <td class="content" width="100%">
-          <xsl:value-of select="sample-value"/>
-        </td>
-      </tr>
-    </table>
 
-    <!-- secondary properies table -->
-    <table class="attribute-prop">
-      <tr>
-        <td class="label" nowrap="true">Required Flag:</td>
-        <td class="content"  width="30%">
-          <xsl:value-of select="required-flag"/>
-        </td>
-        <td class="label" nowrap="true">Trimmed Flag:</td>
-        <td class="content"  width="30%">
-          <xsl:value-of select="trimmed-flag"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Unicode Flag:</td>
-        <td class="content">
-          <xsl:value-of select="unicode-flag"/>
-        </td>
-        <td class="label" nowrap="true">Case Indicator:</td>
-        <td class="content">
-          <xsl:value-of select="case-indicator"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Data Length:</td>
-        <td class="content"  width="30%">
-          <xsl:value-of select="data-length"/>
-        </td>
-        <td class="label" nowrap="true">Data Precision:</td>
-        <td class="content"  width="30%">
-          <xsl:value-of select="data-precision"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="label" nowrap="true">Physical Type:</td>
-        <td class="content">
-          <xsl:value-of select="physical-data-type"/>
-        </td>
-        <td class="label" nowrap="true">Physical Name:</td>
-        <td class="content">
-          <xsl:value-of select="structure-name"/>
-        </td>
-      </tr>
-    </table>
+  <xsl:template name="script">
+  <![CDATA[
+  <!--   
+    
+  function displayEntity(elementId)
+  {
 
-    <!-- processing directives -->
-    <table class="attribute-prop">
-      <tr>
-        <td class="label" nowrap="true">Result</td>
-        <td class="label" nowrap="true">Action</td>
-        <td class="label" nowrap="true">Default Value</td>
-      </tr>
-      <tr>
-        <td class="content-primary">Unspecified</td>
-        <td class="content">
-          <xsl:value-of select="unspecified-action"/>
-        </td>
-        <td class="content">
-          <xsl:value-of select="unspecified-default"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="content-primary">Unresolved</td>
-        <td class="content">
-          <xsl:value-of select="unresolved-action"/>
-        </td>
-        <td class="content">
-          <xsl:value-of select="unresolved-default"/>
-        </td>
-      </tr>
-      <tr>
-        <td class="content-primary">Error</td>
-        <td class="content">
-          <xsl:value-of select="error-action"/>
-        </td>
-        <td class="content">
-          <xsl:value-of select="error-default"/>
-        </td>
-      </tr>
-    </table>
+    var elements = document.getElementsByTagName("div");
+   
+    for (var i = 0; i < elements.length; i++) { 
 
+      var currentElementId = elements[i].id; 
+      var currentElementClass = elements[i].getAttribute("class");
+       
+      if (currentElementClass == "content")
+      {
+        if(currentElementId == elementId) 
+        {
+          elements[i].style.display = 'block';
+        } else {
+          elements[i].style.display = 'none';
+        }
+      }
+
+    }
+  }
+
+  -->
+  ]]>
   </xsl:template>
 
   <xsl:template name="stylesheet">
@@ -387,89 +356,5 @@
   ]]>
   </xsl:template>
 
-  <xsl:template name="script">
-    <![CDATA[
-  <!--
-
-  function loadXMLDoc(fname)
-  {
-    var xmlDoc;
-
-    if (window.ActiveXObject) {
-      xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-    } else if (document.implementation && document.implementation.createDocument) {
-      xmlDoc=document.implementation.createDocument("","",null);
-    } else {
-      alert('Your browser cannot handle this script');
-    }
-    
-    xmlDoc.async=false;     
-    xmlDoc.load(fname);
-    return(xmlDoc);
-  }
-
-  function loadTransform()
-  {
-    xml=loadXMLDoc("erwin_document.xml");
-    xsl=loadXMLDoc("erwin_transform_html.xsl");
-    
-    // perform and apply the xsl transform
-    if (window.ActiveXObject) {
-      ex=xml.transformNode(xsl);
-      document.getElementById("doc-body").innerHTML=ex;
-      document.title = xml.selectSingleNode("//model/name").text;
-    } else if (document.implementation && document.implementation.createDocument) {
-      xsltProcessor=new XSLTProcessor();
-      xsltProcessor.importStylesheet(xsl);
-      resultDocument = xsltProcessor.transformToFragment(xml,document);
-      document.getElementById("doc-body").appendChild(resultDocument);
-      document.title=xml.evaluate("//model/name",xml,null,XPathResult.STRING_TYPE,null).stringValue;
-    }         
-  }
-  
-  
-  function toggleHideAttributes(hide)
-  {
-
-    elements = document.getElementsByTagName("div");
-    
-    for (var i = 0; i < elements.length; i++) {
-    
-      elementId = elements[i].attributes.getNamedItem("id").value;  
-      if (elementId=="attributes"){
-        if (hide==false){
-        elements[i].style.display = 'block';
-        } else {
-        elements[i].style.display = 'none';
-        }
-      }
-    }
-  }
-    
-    
-  function displayEntity(entity)
-  {
-    elements = document.getElementsByTagName("div");
-    
-    for (var i = 0; i < elements.length; i++) { 
-    
-      elementId = elements[i].attributes.getNamedItem("id").value;
-
-      if (elementId.substr(0,6)=="entity"){
-      
-        if (entity=="ALL_ENTITIES") {
-          elements[i].style.display = 'block';
-        } else if(elementId=="entity-" + entity) {
-          elements[i].style.display = 'block';
-        } else {
-          elements[i].style.display = 'none';
-        }
-      }
-    }
-  }
-
-  -->
-  ]]>
-  </xsl:template>
 
 </xsl:stylesheet>

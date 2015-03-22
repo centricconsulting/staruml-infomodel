@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+
+/* 
+#################################################################
+Base Elements
+#################################################################
+*/
+
+BODY
+{
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans'
+    'Segoe UI', Verdana, 'Myriad Pro', /* windows fonts */
+    'Myriad'; /* mac fonts */
+  font-size: 12px;
+  font-weight: 400;
+}
+
+A
+{
+  text-decoration: none;
+}
+
+/* 
+#################################################################
+Titlebar Elements
+#################################################################
+*/
+
+#titlebar
+{
+  background-color: #666666;
+  font-size: 1.5em;
+  font-weight: 300;
+  color: white;
+  padding: 1em;
+}
+
+#titlebar A
+{
+  color: white;
+  -webkit-transition:color .2s ease-in-out;
+  transition: color .2s ease-in-out;
+}
+
+#titlebar A:hover
+{
+  color: #C9C9C9;
+}
+
+#titlebar UL
+{
+margin: 0;
+padding: 0;
+display:table;
+list-style-type: none;
+}
+
+#titlebar LI
+{
+margin: 0;
+padding: 0;
+padding-right: 1.5em;
+display: table-cell;
+vertical-align: middle;
+letter-spacing: 0.05em;
+text-wrap: none;
+white-space:nowrap;
+}
+
+#titlebar LI IMG
+{  
+  border: 2px solid #C9C9C9;
+  padding: 4px;
+  border-radius: 8px;
+  box-shadow: 1px 1px 1px #333333;
+}
+
+
+/* 
+#################################################################
+Menubar Elements
+#################################################################
+*/
+
+#menubar
+{
+background-color: #F7F7F7;
+font-size: 1.0em;
+font-weight: 600;
+color: white;
+padding: 2em;
+margin: auto;
+}
+
+#menubar A
+{
+  color: #333333;
+  -webkit-transition:color .2s ease-in-out;
+  transition: color .2s ease-in-out;
+
+}
+
+#menubar A:hover
+{
+  color: #999999;
+}
+
+#menubar UL
+{
+margin: 0;
+padding: 0;
+display:table;
+list-style-type: none;
+}
+
+#menubar LI
+{
+margin: 0;
+padding: 0;
+width: 10em;
+padding-right: 0.5em;
+display: table-cell;
+vertical-align: top;
+text-align: center;
+white-space: normal;
+}
+
+#menubar LI A
+{
+  display: block;
+  min-height: 6em;   
+}
+
+#menubar LI IMG
+{  
+  padding: 4px;
+  display: block;
+  clear: both;
+  margin: auto; /* centers the image in the block */
+  
+}
+
+/* 
+#################################################################
+Generic Container for holding model and content containers
+#################################################################
+*/
+
+#main-container
+{
+display:table;
+overflow: auto;
+margin-top: 2em;
+}
+
+
+/* 
+#################################################################
+Model Container holds class and content sections
+#################################################################
+*/
+
+#model-container
+{
+  padding: 1.2em;
+  padding-top: 0em; /* no additional spacing in addition to container margin */
+  display:table;
+  font-size: 1.4em;
+  font-weight: 400;
+  display: table-cell;
+  float: left;
+  min-width: 16em;
+  overflow-y: auto;
+  max-height: 60em;
+}
+
+#model-container::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+#model-container::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+#model-container::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+#model-container A
+{
+  color: #333333;
+  -webkit-transition:color .2s ease-in-out;
+  transition: color .2s ease-in-out;
+
+}
+
+#model-container A:hover
+{
+  color: #999999;
+}
+
+
+#model-container UL
+{
+margin: 0;
+padding: 0;
+display:table;
+width: 100%;
+list-style-type: none;
+}
+
+#model-container LI
+{
+margin: 0;
+padding: 0;
+padding: 0.2em;
+padding-right: 2em;
+vertical-align: top;
+text-align: left;
+white-space: normal;
+border-top: 1px #EFEFEF solid;
+}
+
+#model-container LI.altcolor
+{
+background-color: #F7F7F7;
+}
+
+#model-container LI.lastclass
+{
+border-bottom: 1px #CCCCCC solid;
+}
+
+#model-container LI A
+{
+  display: block; 
+  width: 100%;
+}
+
+#model-container LI IMG
+{  
+  padding: 4px;
+  display: block;
+  clear: both;
+  margin: auto; /* centers the image in the block */  
+}
+
+
+
+/* 
+#################################################################
+Content Container holds class listings for the model
+#################################################################
+*/
+
+#content-container
+{
+display:table-cell;
+width: 100%;
+}
