@@ -3,6 +3,12 @@
 
   <xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" indent="yes" />
 
+  <!--
+  #################################################################
+  Root Template - Processing Starts Here
+  #################################################################
+  -->
+
   <xsl:template match="/">
 
     <html>
@@ -69,14 +75,12 @@
           </section>
 
           <section id="content-container">
-          Contents
           </section>
 
         </div>
 
 
         <footer>
-          test footer
         </footer>
 
       </body>
@@ -93,7 +97,7 @@
     
       <li>
         <a class="nav" href="#" onclick="javascript:displayElement('model-{id}')">
-          <img src="resources/model.png" class="nav-icon"/>
+          <img src="resources/model_nav.png" class="nav-icon"/>
           <span>
             <xsl:value-of select="name"/>
           </span>
@@ -110,7 +114,7 @@
 
       <li>
         <a class="nav" href="#" onclick="javascript:displayElement('diagram-{id}')">
-          <img src="resources/diagram.png" class="nav-icon"/>
+          <img src="resources/diagram_nav.png" class="nav-icon"/>
           <span>
             <xsl:value-of select="name"/>
           </span>

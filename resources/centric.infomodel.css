@@ -139,6 +139,8 @@ white-space: normal;
   display: block;
   clear: both;
   margin: auto; /* centers the image in the block */
+  height: 40px;
+  width: auto;
   
 }
 
