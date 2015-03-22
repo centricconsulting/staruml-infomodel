@@ -12,6 +12,8 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 4. Open the Html file in any browser.
 5. The Xml file may be used as a data source for MS Word or other document merge technologies.
 
+**NOTE: Compatible with Java Runtime Environment 1.6.0.45 (Oracle 6u45).**
+
 ## Installation Options
 ### #1 - StarUML Extension Manager
 1. Open the StarUML application.
