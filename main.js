@@ -182,9 +182,10 @@ define(function (require, exports, module) {
 
   function buildProcessCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
   	var command = XsltProcessExecutable + " "
-  	+ "\"" + projectFilePath + "\" "
-  	+ "\"" + targetFilePath + "\" "
-  	+ "\"" + sourceXsltFilePath + "\" ";
+  	+ "-p \"" + projectFilePath + "\" "
+  	+ "-t \"" + targetFilePath + "\" "
+  	+ "-x \"" + sourceXsltFilePath + "\" "
+  	+ "-g";
   	
   	console.log("buildProcessCommand::command = " + command);
   	
