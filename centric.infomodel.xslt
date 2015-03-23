@@ -10,7 +10,6 @@
   -->
 
   <xsl:template match="/">
-
     <html>
       <head>
 
@@ -29,6 +28,11 @@
       </head>
       <body>
 
+        <!--
+        #################################################################
+        Title Bar
+        #################################################################
+        -->
 
         <nav id="titlebar">
 
@@ -39,12 +43,12 @@
               </a>
             </li>
             <li>
-              <a href="#" onclick="javascript:displayElement('project-{id}');">
+              <a href="#" onclick="javascript:displayContent('project-{//project/@id}');">
                 <xsl:value-of select="//project/name"/>
               </a>
             </li>
 
-            <xsl:if test="//project/version">
+            <xsl:if test="string-length(//project/version) > 0">
             <li>
               Version <xsl:value-of select="//project/version"/>
             </li>
@@ -54,6 +58,12 @@
 
         </nav>
 
+        <!--
+        #################################################################
+        Menu Bar
+        #################################################################
+        -->
+
         <nav id="menubar">
 
           <ul>
@@ -61,6 +71,16 @@
             <xsl:apply-templates select="//project/model" mode="nav">
               <xsl:sort select="name" order="ascending"/> 
             </xsl:apply-templates>
+
+            <li class="information">
+              <a class="nav" href="#" onclick="javascript:displayContent('information');">
+                <img src="resources/information.png" class="nav-icon"/>
+                <span>
+                  Information
+                </span>
+              </a>
+            </li>
+
 
           </ul>
 
@@ -75,6 +95,82 @@
           </section>
 
           <section id="content-container">
+
+            <!--
+            #################################################################
+            Project Contents
+            #################################################################
+            -->
+
+            <div class="control" id="project-{//project/@id}">
+
+
+              <span class="title">
+                <xsl:value-of select="//project/name"/>
+              </span>
+
+              <span>
+                <img src="resources/definition.png" />
+                
+            <xsl:choose>
+              <xsl:when test="string-length(//project/documentation)=0">
+              Documentation is not available.
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="//project/documentation"/>
+              </xsl:otherwise>
+            </xsl:choose>
+
+              </span>
+
+              <span class="section-header">
+                Project Information
+              </span>
+
+            </div>
+
+            <!--
+            #################################################################
+            Information Contents
+            #################################################################
+            -->
+
+            <div class="control" id="information">
+
+              <xsl:attribute name="style">display:none;</xsl:attribute>
+
+              <span class="title">
+                Information
+              </span>
+
+              <span>
+                <img src="resources/information.png" />
+                Describes how to navigate and even customize this document.
+              </span>
+
+              
+            </div>
+
+            <!--
+            #################################################################
+            Model Contents
+            #################################################################
+            -->
+
+            <xsl:apply-templates select="//project/model" mode="content-container">
+              <xsl:sort select="name" order="ascending"/>
+            </xsl:apply-templates>
+
+            <!--
+            #################################################################
+            Diagram Contents
+            #################################################################
+            -->
+
+            <xsl:apply-templates select="//project/model/diagram" mode="content-container">
+              <xsl:sort select="name" order="ascending"/>
+            </xsl:apply-templates>
+
           </section>
 
         </div>
@@ -96,7 +192,7 @@
   <xsl:template match="model" mode="nav">
     
       <li>
-        <a class="nav" href="#" onclick="javascript:displayElement('model-{id}')">
+        <a class="nav" href="#" onclick="javascript:displayGlobal('model-{@id}','model-{@id}');">
           <img src="resources/model_nav.png" class="nav-icon"/>
           <span>
             <xsl:value-of select="name"/>
@@ -113,7 +209,7 @@
   <xsl:template match="diagram" mode="nav">
 
       <li>
-        <a class="nav" href="#" onclick="javascript:displayElement('diagram-{id}')">
+        <a class="nav" href="#" onclick="javascript:displayGlobal('model-{@model-id}','diagram-{@id}');">
           <img src="resources/diagram_nav.png" class="nav-icon"/>
           <span>
             <xsl:value-of select="name"/>
@@ -123,17 +219,6 @@
 
   </xsl:template>
 
-  <xsl:template match="class" mode="nav">
-
-    <li>
-      <a class="nav" href="#" onclick="javascript:displayEntity('class-{@id}');">
-        <span>
-          <xsl:value-of select="name"/>
-        </span>
-      </a>
-    </li>
-
-  </xsl:template>
 
 
   <!--
@@ -143,17 +228,22 @@
   -->
 
   <xsl:template match="model" mode="model-container">
-   
-    <xsl:choose>
-      <xsl:when test="position()=1">
-        <xsl:variable name="display-style" select="'display:block;'"/> 
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:variable name="display-style" select="'display:none;'"/>      
-      </xsl:otherwise>
-    </xsl:choose>
 
-    <div class="model" id="model-{@id}"  style="$display-style">
+    <div class="control" id="model-{@id}">
+
+      <xsl:choose>
+        <xsl:when test="position()=1">
+          <xsl:attribute name="style">
+            display:block;
+          </xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="style">
+            display:none;
+          </xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
+
       <!-- list all the classes -->
       <ul>
 
@@ -174,10 +264,41 @@
         <xsl:attribute name="class">altcolor</xsl:attribute>
       </xsl:if>
 
-      <a class="nav" href="#" onclick="javascript:displayEntity('class-{@id}');">
+      <a class="nav" href="#" onclick="javascript:displayContent('class-{@id}');">
         <span>
           <xsl:value-of select="name"/>
         </span>
+
+
+        <xsl:choose>
+          <xsl:when test="(count(attribute) > 0) or (count(operation) > 0)">
+            <img src="resources/attributes_flag.png" title="{name} has attributes." />
+          </xsl:when>
+          <xsl:otherwise>
+            <div class="placeholder" />
+          </xsl:otherwise>
+        </xsl:choose>
+
+      <xsl:choose>
+        <xsl:when test="count(enum/enumliteral) > 0">
+          <img src="resources/enum_flag.png" title="{name} has enumerations." />
+        </xsl:when>
+        <xsl:otherwise>
+          <div class="placeholder" />
+        </xsl:otherwise>
+      </xsl:choose>
+
+
+        <xsl:choose>
+          <xsl:when test="string-length(documentation) > 0">
+            <img src="resources/definition.png" title="{name} has a definition." />
+          </xsl:when>
+          <xsl:otherwise>
+            <div class="placeholder" />
+          </xsl:otherwise>
+        </xsl:choose>
+
+
       </a>
     </li>
 
@@ -190,9 +311,60 @@
   #################################################################
   -->
 
-  <xsl:template match="diagram" mode="content">
-    <div class="content" id="diagram-{@id}"  style="display:none;">
+
+  <xsl:template match="model" mode="content-container">
+
+    <!-- project div -->
+    <div class="control" id="model-{@id}" style="display:none;">
+
+
+      <span class="title">
+        <xsl:value-of select="name"/>
+      </span>
+
+      <span>
+        <img src="resources/definition.png" />
+
+        <xsl:choose>
+          <xsl:when test="string-length(documentation)=0">
+            Documentation is not available.
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="documentation"/>
+          </xsl:otherwise>
+        </xsl:choose>
+
+        
+      </span>
+
+    </div>
+
+  </xsl:template>
+
+  <xsl:template match="diagram" mode="content-container">
+
+    <div class="control" id="diagram-{@id}" style="display:none;">
+
+      <span class="title">
+        <xsl:value-of select="name"/>
+      </span>
+
+      <span>
+        <img src="resources/definition.png" />
+
+        <xsl:choose>
+          <xsl:when test="string-length(documentation)=0">
+            Documentation is not available.
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="documentation"/>
+          </xsl:otherwise>
+        </xsl:choose>
+
+      </span>
+
       <img class="diagram" src="diagrams/diagram_{@id}.svg"></img>
+
     </div>
   </xsl:template>
 
@@ -203,28 +375,64 @@
   <![CDATA[
   <!--   
     
-  function displayEntity(elementId)
+
+  function displayGlobal(modelid, contentid)
   {
 
-    var elements = document.getElementsByTagName("div");
+    displayModel(modelid);
+    displayContent(contentid);
+  }
+
+
+  function displayModel(modelid)
+  {
+
+    var model = document.getElementById("model-container");
+
+    var elements = model.getElementsByTagName("div");
    
     for (var i = 0; i < elements.length; i++) { 
 
       var currentElementId = elements[i].id; 
       var currentElementClass = elements[i].getAttribute("class");
        
-      if (currentElementClass == "content")
+      if (currentElementClass == "control")
       {
-        if(currentElementId == elementId) 
+        if (currentElementId == modelid)
         {
           elements[i].style.display = 'block';
         } else {
           elements[i].style.display = 'none';
         }
       }
-
     }
   }
+
+
+  function displayContent(contentid)
+  {
+ 
+    var content = document.getElementById("content-container");
+
+    var elements = content.getElementsByTagName("div");
+   
+    for (var i = 0; i < elements.length; i++) { 
+
+      var currentElementId = elements[i].id; 
+      var currentElementClass = elements[i].getAttribute("class");
+       
+      if (currentElementClass == "control")
+      {
+        if (currentElementId == contentid)
+        {
+          elements[i].style.display = 'block';
+        } else {
+          elements[i].style.display = 'none';
+        }
+      }
+    }
+  }
+
 
   -->
   ]]>

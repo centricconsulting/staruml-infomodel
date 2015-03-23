@@ -11,8 +11,8 @@ BODY
   margin: 0;
   padding: 0;
   font-family: "Open Sans",
-    "Myriad Pro","Segoe UI", Verdana, "Myriad Pro", /* windows fonts */
-    "Myriad"; /* mac fonts */
+    "Myriad Pro","Segoe UI",   /* windows fonts */
+    "Myriad", Verdana;         /* mac fonts */
   font-size: 12px;
   font-weight: 400;
 }
@@ -127,6 +127,11 @@ text-align: center;
 white-space: normal;
 }
 
+  #menubar LI.information
+  {
+    float: right;
+  }
+
 #menubar LI A
 {
   display: block;
@@ -152,23 +157,17 @@ Generic Container for holding model and content containers
 
 #main-container
 {
-display:table;
-overflow: auto;
+display: table;
 margin-top: 2em;
+white-space: nowrap;
+color: #333333;
 }
-
-
-/* 
-#################################################################
-Model Container holds class and content sections
-#################################################################
-*/
 
 #model-container
 {
   padding: 1.2em;
   padding-top: 0em; /* no additional spacing in addition to container margin */
-  display:table;
+  vertical-align: top;
   font-size: 1.4em;
   font-weight: 400;
   display: table-cell;
@@ -177,6 +176,26 @@ Model Container holds class and content sections
   overflow-y: auto;
   max-height: 60em;
 }
+
+#content-container
+{
+  padding: 1.2em;
+  padding-top: 0em; /* no additional spacing in addition to container margin */
+  vertical-align: top;
+  font-size: 1.4em;
+  font-weight: 400;
+  display: table-cell;
+  overflow-y: auto;
+  max-height: 60em;
+  white-space: normal; 
+}
+
+/* 
+#################################################################
+Model Container holds class and content sections
+#################################################################
+*/
+
 
 #model-container::-webkit-scrollbar {
     width: 12px;
@@ -220,7 +239,7 @@ list-style-type: none;
 margin: 0;
 padding: 0;
 padding: 0.2em;
-padding-right: 2em;
+padding-right: 0.5em;
 vertical-align: top;
 text-align: left;
 white-space: normal;
@@ -243,11 +262,34 @@ border-bottom: 1px #CCCCCC solid;
   width: 100%;
 }
 
+#model-container LI SPAN
+{
+width: 100%;
+margin:auto;
+}
+
 #model-container LI IMG
 {  
+  display:block;
+  border: 0px;
+  margin: 0px;
+  float:right;
+  height:12px;
+  width: auto;
   padding: 4px;
-  display: block;
-  clear: both;
+  padding-left: 0.5em;
+  margin: auto; /* centers the image in the block */  
+}
+
+#model-container LI DIV.placeholder
+{  
+  display:block;
+  border: 0px;
+  margin: 0px;
+  float:right;
+  height:12px;
+  width: 12px;
+  padding: 4px;
   margin: auto; /* centers the image in the block */  
 }
 
@@ -259,8 +301,57 @@ Content Container holds class listings for the model
 #################################################################
 */
 
-#content-container
+#content-container DIV.content
 {
-display:table-cell;
+margin: 0;
+padding: 0;
 width: 100%;
+display:block;
+clear:both;
+}
+
+
+#content-container SPAN
+{
+  font-size: 1.2em;
+  font-weight: 300;
+  display:block;
+}
+
+#content-container SPAN IMG
+{
+  display:block;
+  float:left;
+  padding: 4px;
+  margin-right: 0.5em;
+  height: 1em;
+  width: auto;
+}
+
+
+#content-container SPAN.title
+{
+  font-size: 3em;
+  display:block;
+  color: #316BAA;
+}
+
+#content-container SPAN.section-header
+{
+  display:block;
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 1em;
+}
+
+#content-container SPAN.section
+{
+  display:block;
+}
+
+
+#content-container IMG.diagram
+{
+  max-width: 100%;
+  max-height: 100%;
 }
