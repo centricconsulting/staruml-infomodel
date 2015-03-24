@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
   <xsl:output encoding="UTF-8" method="html" omit-xml-declaration="yes" indent="yes" />
+  <xsl:preserve-space elements="*" />
 
   <!--
   #################################################################
@@ -37,9 +38,10 @@
         <nav id="titlebar">
 
           <ul>
-            <li>
-              <a href="#">
-                <img src="resources/logo.png" />
+            <li class="logo">
+              <a href="#" onclick="javascript:displayContent('project-{//project/@id}');">
+                <img src="resources/starlogo.png" />
+                <img class="logo" src="resources/logo.png" />
               </a>
             </li>
             <li>
@@ -101,55 +103,10 @@
             Project Contents
             #################################################################
             -->
-
-            <div class="control" id="project-{//project/@id}">
-
-
-              <span class="title">
-                <xsl:value-of select="//project/name"/>
-              </span>
-
-              <span>
-                <img src="resources/definition.png" />
-                
-            <xsl:choose>
-              <xsl:when test="string-length(//project/documentation)=0">
-              Documentation is not available.
-              </xsl:when>
-              <xsl:otherwise>
-                <xsl:value-of select="//project/documentation"/>
-              </xsl:otherwise>
-            </xsl:choose>
-
-              </span>
-
-              <span class="section-header">
-                Project Information
-              </span>
-
-            </div>
-
-            <!--
-            #################################################################
-            Information Contents
-            #################################################################
-            -->
-
-            <div class="control" id="information">
-
-              <xsl:attribute name="style">display:none;</xsl:attribute>
-
-              <span class="title">
-                Information
-              </span>
-
-              <span>
-                <img src="resources/information.png" />
-                Describes how to navigate and even customize this document.
-              </span>
-
-              
-            </div>
+            
+            <xsl:apply-templates select="//project" mode="content-container">
+              <xsl:sort select="name" order="ascending"/>
+            </xsl:apply-templates>
 
             <!--
             #################################################################
@@ -170,6 +127,47 @@
             <xsl:apply-templates select="//project/model/diagram" mode="content-container">
               <xsl:sort select="name" order="ascending"/>
             </xsl:apply-templates>
+
+            <!--
+            #################################################################
+            Class Contents
+            #################################################################
+            -->
+
+            <xsl:apply-templates select="//project/model/class" mode="content-container">
+              <xsl:sort select="name" order="ascending"/>
+            </xsl:apply-templates>
+
+            <!--
+            #################################################################
+            Information Contents
+            #################################################################
+            -->
+
+            <div class="control" id="information">
+
+              <xsl:attribute name="style">display:none;</xsl:attribute>
+
+              <table class="title">
+                <tr>
+
+                  <td>
+                    <span class="title">
+                      Information
+                    </span>
+                  </td>
+
+                </tr>
+              </table>
+
+              <span class="section">
+                <span class="definition">
+                  <img src="resources/definition.png" />
+                  Describes how to navigate and even customize this document.
+                </span>
+              </span>
+
+            </div>
 
           </section>
 
@@ -312,55 +310,125 @@
   -->
 
 
-  <xsl:template match="model" mode="content-container">
+  <!--
+  ###########################################################################
+  Project Content Container
+  ###########################################################################
+  -->
+
+  <xsl:template match="project" mode="content-container">
 
     <!-- project div -->
-    <div class="control" id="model-{@id}" style="display:none;">
+    <div class="control" id="project-{@id}" style="display:block;">
 
+      <table class="title"><tr>
 
-      <span class="title">
-        <xsl:value-of select="name"/>
-      </span>
+          <td>
+            <span class="title">
+              <xsl:value-of select="name"/>
+            </span>
+          </td>
 
-      <span>
+      </tr></table>
+
+      <span class="section">
+        <span class="definition">
         <img src="resources/definition.png" />
-
         <xsl:choose>
           <xsl:when test="string-length(documentation)=0">
-            Documentation is not available.
+            <em>Documentation is not available.</em>
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="documentation"/>
           </xsl:otherwise>
         </xsl:choose>
-
-        
+        </span>
       </span>
 
     </div>
 
   </xsl:template>
 
+  <!--
+  ###########################################################################
+  Model Content Container
+  ###########################################################################
+  -->
+
+  <xsl:template match="model" mode="content-container">
+
+    <!-- project div -->
+    <div class="control" id="model-{@id}" style="display:none;">
+
+
+      <table class="title">
+        <tr>
+          <td>
+            <span class="title">
+              <xsl:value-of select="name"/>
+            </span>
+          </td>
+        </tr>
+      </table>
+
+      <span class="section">
+        <span class="definition">
+          <img src="resources/definition.png" />
+          <xsl:choose>
+            <xsl:when test="string-length(documentation)=0">
+              <em>Documentation is not available.</em>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="documentation"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </span>
+      </span>
+
+    </div>
+  </xsl:template>
+
+  <!--
+  ###########################################################################
+  Diagram Content Container
+  ###########################################################################
+  -->
+
   <xsl:template match="diagram" mode="content-container">
 
     <div class="control" id="diagram-{@id}" style="display:none;">
 
-      <span class="title">
-        <xsl:value-of select="name"/>
-      </span>
+      <table class="title"><tr>
 
-      <span>
+          <td class="namespace">
+            <span class="namespace">
+              <a href="#" onclick="javascript:displayGlobal('model-{ancestor::model/@id}','model-{ancestor::model/@id}');">
+                <xsl:value-of select="ancestor::model/name"/>
+              </a>
+            </span>
+          </td>
+
+          <td>
+            <span class="title">
+              <xsl:value-of select="name"/>
+            </span>
+          </td>
+
+      </tr></table>
+
+
+      <span class="section">
+        <span class="definition">
         <img src="resources/definition.png" />
-
         <xsl:choose>
           <xsl:when test="string-length(documentation)=0">
-            Documentation is not available.
+            <em>Documentation is not available.</em>
           </xsl:when>
           <xsl:otherwise>
             <xsl:value-of select="documentation"/>
           </xsl:otherwise>
         </xsl:choose>
-
+        </span>
       </span>
 
       <img class="diagram" src="diagrams/diagram_{@id}.svg"></img>
@@ -368,7 +436,213 @@
     </div>
   </xsl:template>
 
+  <!--
+  ###########################################################################
+  Class Content Container
+  ###########################################################################
+  -->
 
+  <xsl:template match="class" mode="content-container">
+
+    <!-- project div -->
+    <div class="control" id="class-{@id}" style="display:none;">
+
+
+     <table class="title"><tr>
+
+          <td class="namespace">
+            <span class="namespace">
+              <a href="#" onclick="javascript:displayGlobal('model-{ancestor::model/@id}','model-{ancestor::model/@id}');">
+                <xsl:value-of select="ancestor::model/name"/>
+              </a>
+            </span>
+          </td>
+
+          <td>
+            <span class="title">
+              <xsl:value-of select="name"/>
+            </span>
+          </td>
+
+      </tr></table>
+
+      <span class="section">
+        <span class="definition">
+        <img src="resources/definition.png" />
+        <xsl:choose>
+          <xsl:when test="string-length(documentation)=0">
+            <em>Documentation is not available.</em>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="documentation"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        </span>
+      </span>
+
+      <table class="attribute">
+
+        <xsl:if test="count(attribute)>0" >
+        <tr>
+          <td class="header" colspan="3">
+          <span class="header">
+            Attributes
+          </span>
+          </td>
+        </tr>
+        
+        <xsl:apply-templates select="attribute" mode="content-container" />
+
+        </xsl:if>
+
+        <xsl:if test="count(operation)>0" >
+        <tr>
+          <td class="header" colspan="3">
+            <span class="header">
+              Operations
+            </span>
+          </td>
+        </tr>
+
+        <xsl:apply-templates select="operation" mode="content-container" />
+        </xsl:if>
+      </table>
+
+    </div>
+
+  </xsl:template>
+
+    <!--
+  ###########################################################################
+  Class Attribute Content Container
+  ###########################################################################
+  -->
+
+
+  <!--
+    ###########################################################################
+    Model-Attribute Content Container
+    ###########################################################################
+    -->
+
+  <xsl:template match="attribute" mode="content-container">
+
+  <tr>
+      <xsl:if test="position() mod 2 = 1">
+        <xsl:attribute name="class">altcolor</xsl:attribute>
+      </xsl:if>
+
+    <td>
+      <span class="label">
+        <xsl:value-of select="name"/>
+      </span>
+    </td>
+
+      <td>
+      <xsl:choose>
+        <!-- ideally lookup the class from the class id -->
+        <xsl:when test="string-length(@stereotype-class-id)>0">
+
+          <span class="namespace">
+            <a href="#" onclick="javascript:displayGlobal('model-{ancestor::project/model[class/@id=current()/@stereotype-class-id]/@id}','class-{@stereotype-class-id}');">
+              <xsl:value-of select="ancestor::project/model/class[@id=current()/@stereotype-class-id]/name"/>
+            </a>
+          </span>
+
+        </xsl:when>
+
+        <!-- otheriwe use the name -->
+        <xsl:when test="string-length(stereotype-name)>0">
+          <span class="description">
+            <xsl:value-of select="stereotype-name"/>
+          </span>
+        </xsl:when>
+
+        <!-- otherwise use the type (i.e. data type) -->
+        <xsl:when test="string-length(type)>0">
+          <span class="description">
+              <xsl:value-of select="type"/>
+          </span>
+        </xsl:when>
+
+      </xsl:choose>
+    
+    </td>
+
+
+
+    <td>
+        <span class="description">
+          <xsl:choose>
+            <xsl:when test="string-length(documentation)=0">
+              Documentation is not available.
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="documentation"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </span>
+    </td>
+    </tr>
+  </xsl:template>
+
+
+  <!--
+    ###########################################################################
+    Model-Operations Content Container
+    ###########################################################################
+    -->
+
+  <xsl:template match="operation" mode="content-container">
+
+    <tr>
+      <xsl:if test="position() mod 2 = 1">
+        <xsl:attribute name="class">altcolor</xsl:attribute>
+      </xsl:if>
+      <td>
+        <span class="label">
+          <xsl:value-of select="name"/>
+        </span>
+      </td>
+
+      <td>
+        <xsl:choose>
+          <!-- ideally lookup the class from the class id -->
+          <xsl:when test="string-length(@stereotype-class-id)>0">
+
+            <span class="namespace">
+              <a href="#" onclick="javascript:displayGlobal('model-{ancestor::project/model[class/@id=current()/@stereotype-class-id]/@id}','class-{@stereotype-class-id}');">
+                <xsl:value-of select="ancestor::project/model/class[@id=current()/@stereotype-class-id]/name"/>
+              </a>
+            </span>
+
+          </xsl:when>
+
+          <!-- otheriwe use the name -->
+          <xsl:when test="string-length(stereotype-name)>0">
+            <span class="description">
+              <xsl:value-of select="stereotype-name"/>
+            </span>
+          </xsl:when>
+
+        </xsl:choose>
+
+      </td>
+
+      <td>
+        <span class="description">
+          <xsl:choose>
+            <xsl:when test="string-length(documentation)=0">
+              Documentation is not available.
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="documentation"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </span>
+      </td>
+    </tr>
+  </xsl:template>
 
 
   <xsl:template name="script">
@@ -441,128 +715,6 @@
   <xsl:template name="stylesheet">
     <![CDATA[
   <!--
-
-  BODY {
-  font-family: Verdana,Arial;
-  font-size: 8pt;
-  }
-
-  DIV {
-  display: block;
-  }
-
-  TABLE {
-  border: 0px;
-  border-collapse: collapse;
-  }
-
-  TABLE TD {
-  font-family: Verdana,Arial;
-  font-size: 8pt;
-  padding: 4px;
-  padding-right: 8px;
-  border: 0px;
-  vertical-align: top;
-  }
-
-  SELECT {
-  font-family: Verdana,Arial;
-  font-size: 8pt;
-  }
-
-  .header-label {
-  font-family: Verdana,Arial;
-  font-size: 14pt;
-  color: #664499;
-  font-weight: bold;
-  }
-
-  TABLE.filter TD {
-  vertical-align: middle;
-  font-weight: bold;
-  }
-
-
-  TABLE.entity-header {
-  width: 7in;
-  border: 1px solid #999999;
-  margin-bottom: 8px;
-  }
-
-  TABLE.entity-header TD {
-  font-weight: bold;
-  background-color: #CCCCFF;
-  }
-
-  TABLE.entity-prop {
-  width: 7in;
-  margin-bottom: 8px;
-  }
-
-  TABLE.entity-prop TD {
-  border: 1px solid #CCCCCC;
-  } 
-
-  TABLE.entity-prop TD.label {
-  font-weight: bold;
-  background-color: #ECECEC;   
-  }
-
-  TABLE.entity-prop TD.content-primary {
-  font-weight: bold;
-  color: #336699;
-  }      
-
-  TABLE.key-group {
-  width: 7in;
-  margin-bottom: 8px;
-  }
-
-  TABLE.key-group TD {
-  border: 1px solid #CCCCCC;
-  } 
-
-  TABLE.key-group TD.label {
-  font-weight: bold;
-  background-color: #ECECEC;
-  }
-
-  TABLE.key-group TD.content-primary {
-  font-weight: bold;
-  color: #336699;
-  }    
-
-  TABLE.attribute-header TD {
-  font-weight: bold;
-  background-color: #FED980;
-  }
-
-  TABLE.attribute-header {
-  width: 6.5in;
-  margin-left: 0.5in;
-  border: 1px solid #FED980;
-  margin-bottom: 8px;
-  }
-
-  TABLE.attribute-prop {
-  width: 6.5in;
-  margin-left: 0.5in;
-  margin-bottom: 8px;
-  }
-
-  TABLE.attribute-prop TD {
-  border: 1px solid #FED980;
-  } 
-
-  TABLE.attribute-prop TD.label {
-  font-weight: bold;
-  background-color: #ECECEC;   
-  }
-
-  TABLE.attribute-prop TD.content-primary {
-  font-weight: bold;
-  color: #FEECBF;
-  }       
 
   -->
   ]]>

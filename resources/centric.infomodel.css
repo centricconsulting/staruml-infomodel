@@ -22,6 +22,19 @@ A
   text-decoration: none;
 }
 
+TABLE
+{
+  margin:0;
+  padding:0;
+  border-collapse:collapse;
+}
+
+TD
+{
+border: 0px;
+}
+
+
 /* 
 #################################################################
 Titlebar Elements
@@ -31,10 +44,10 @@ Titlebar Elements
 #titlebar
 {
   background-color: #666666;
-  font-size: 1.5em;
+  font-size: 2.0em;
   font-weight: 300;
   color: white;
-  padding: 1em;
+  padding: 0.5em;
 }
 
 #titlebar A
@@ -60,8 +73,9 @@ list-style-type: none;
 #titlebar LI
 {
 margin: 0;
+margin-right: 2em;
 padding: 0;
-padding-right: 1.5em;
+padding-left: 1em;
 display: table-cell;
 vertical-align: middle;
 letter-spacing: 0.05em;
@@ -69,12 +83,28 @@ text-wrap: none;
 white-space:nowrap;
 }
 
-#titlebar LI IMG
-{  
-  border: 2px solid #C9C9C9;
-  padding: 4px;
+
+#titlebar LI.logo
+{    
   border-radius: 8px;
-  box-shadow: 1px 1px 1px #333333;
+  box-shadow: 1px 1px 1px #4C4C4C;
+  padding: 0.2em;
+}
+
+#titlebar LI.logo IMG
+{    
+  border-radius: 8px;
+  height:2em;
+  width:auto;
+  padding-right: 0.2em;
+}
+
+
+#titlebar LI.logo IMG.logo
+{   
+  border-radius: 8px;
+  margin-left: 0.2em;
+  padding-right: 0em; /* turn off padding for last logo on right */
 }
 
 
@@ -310,11 +340,44 @@ display:block;
 clear:both;
 }
 
+#content-container IMG.diagram
+{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+
+#content-container SPAN.namespace
+{
+  font-size: 0.8em;
+  font-weight: 600;  
+  border: 1px #999999 solid;
+  background-color: #F7F7F7;
+  padding: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.2em;
+  border-radius: 8px;
+  box-shadow: 1px 1px 1px #EEEEEE;
+  white-space: nowrap;
+}
+
+#content-container SPAN.namespace A
+{
+  color: #333333;
+  -webkit-transition:color .2s ease-in-out;
+  transition: color .2s ease-in-out;
+
+}
+
+#content-container SPAN.namespace A:hover
+{
+  color: #999999;
+}
+
 
 #content-container SPAN
 {
-  font-size: 1.2em;
-  font-weight: 300;
   display:block;
 }
 
@@ -328,30 +391,99 @@ clear:both;
   width: auto;
 }
 
-
 #content-container SPAN.title
 {
   font-size: 3em;
-  display:block;
+  display:inline-block;
   color: #316BAA;
 }
 
-#content-container SPAN.section-header
+
+#content-container SPAN.header
 {
-  display:block;
-  font-size: 1.5em;
-  font-weight: 600;
-  margin-top: 1em;
+font-size:2em;
+font-weight:400;
+color:#333333;
 }
 
 #content-container SPAN.section
 {
-  display:block;
+  display: block;
+  clear: both;
+  color: #333333;
+  white-space: nowrap;
+  padding: 0.2em;
+  padding-bottom: 0.5em;
+  width:100%;
+}
+
+#content-container SPAN.definition
+{
+  display:inline-block;
+  padding:1em;
+  background-color: #D6E6EB;
+  border: 1px solid #EEEEEE;
+  border-radius: 8px;
+  margin-top: .5em;
+  min-width: 20em;
+}
+
+#content-container SPAN.description
+{
+  font-size: 1em;
+  font-weight: 400;  
+  color: #333333;
+}
+
+#content-container SPAN.label
+{
+  font-size: 1em;
+  font-weight: 600;  
+  color: #333333;
 }
 
 
-#content-container IMG.diagram
+#content-container TABLE.title TD
 {
-  max-width: 100%;
-  max-height: 100%;
+  vertical-align:bottom;
+  white-space:nowrap;
+}
+
+#content-container TABLE.title TD
+{
+  vertical-align:bottom;
+  white-space:nowrap;
+}
+
+#content-container TABLE.title TD.namespace
+{
+  padding-bottom: 0.75em; /* equivalent to baseline height of title text */
+  padding-right: 0.5em;
+}
+
+
+#content-container TABLE.attribute
+{
+max-width:60em;
+}
+
+#content-container TABLE.attribute TR.altcolor TD
+{
+  background-color: #F7F7F7;
+}
+
+#content-container TABLE.attribute TD
+{
+  vertical-align:top;
+  padding: 0.5em;
+  padding-right:1em;  
+  border: 1px solid #EFEFEF;
+  border-left: 0px;
+  border-right: 0px;
+}
+
+#content-container TABLE.attribute TD.header
+{
+  border: 0px;
+  padding-top: 1em;
 }

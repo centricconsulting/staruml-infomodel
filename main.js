@@ -85,7 +85,8 @@ define(function (require, exports, module) {
   	
   	// extract the TargetFolderPath from the file path
   	var TargetFolderPath = FileUtils.getDirectoryPath(TargetFilePath);
-
+  	var TargetFileName = FileUtils.getBaseName(TargetFilePath);
+  	
     // generate diagrams
     var TargetDiagramPath = TargetFolderPath + TargetDiagramFolderName;
     createFolder(TargetDiagramPath);
@@ -99,8 +100,11 @@ define(function (require, exports, module) {
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
     var command = buildProcessCommand(ProjectFilePath, TargetFilePath, XsltFilePath);
-    executeProcess(command);
     
+    // identify the target directory to execute the command
+		var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
+		executeProcess(command, ExecuteDirectory);
+   
     return result.promise();
   }
 
@@ -192,14 +196,12 @@ define(function (require, exports, module) {
   	return command;  	
   }
   
-  function executeProcess(command) {  	
+  function executeProcess(command, executeDirectory) {  	
 		// execute
-		console.log("executeProcess::command = " + command);	 		
+		console.log("executeProcess::command = " + command);
+		console.log("executeProcess::executeDirectory = " + executeDirectory);
 		
-		var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
-		console.log("executeProcess::ExecuteDirectory = " + ExecuteDirectory);	
- 		
-		var buffer = InfoModelExportDomain.exec("executeCommand", command, ExecuteDirectory);  	  	
+		var buffer = InfoModelExportDomain.exec("executeCommand", command, executeDirectory);  	  	
   }
 	
   // #######################################################  
