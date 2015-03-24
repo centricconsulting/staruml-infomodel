@@ -23,7 +23,7 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 5. The extension will automatically install.
 
 ### #2 - Manual Windows Installation
-1. Open Windows Explorer and navigate to "C:\Users\\{user}\AppData\Roaming\StarUML\extensions\user" where {user} is your windows login user name.
+1. Open Windows Explorer and navigate to "C:\Users\{user}\AppData\Roaming\StarUML\extensions\user" where {user} is your windows login user name.
 2. Download the file http://github.com/jkanel/staruml-infomodel/archive/master.zip to your local drive.
 3. Open the zip archive and extract the "staruml-infomodel-master" folder to the "user" folder (see #1, above).
 4. The extension is now installed.
