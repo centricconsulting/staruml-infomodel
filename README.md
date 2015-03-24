@@ -31,5 +31,10 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 ## Customization
 The following methods of customization are supported.
 
-1. **Xslt File**. You can alter the Xslt file located in your extensions folder "C:\Users\\{user}\AppData\Roaming\StarUML\extensions\user\star-infomodel" to produce new Html transformations.
-2. **Resource Folder Contents**.  The "resoures" folder and its contents are copied in their entirety to the target Html folder.  These may be referenced by Xslt and the subsequent Html file. The "resources" folder is located in the extension folder.
+**NOTE: All customizations should be made in the StarUML Extensions folder.  On Windows machines, this folder is located here: "C:\Users\\{user}\AppData\Roaming\StarUML\extensions\user\com.centric.infomodel.html".  The placeholder {user} should be replaced with your Windows account name.**
+
+1. **Xslt File**. You can alter the Xslt file (centric.infomodel.xslt) located located in the StarUML Extensions folder.
+2. **CSS Style Sheet**. You can alter the CSS style sheet file (centric.infomodel.css) located in the StarUML Extensions resources subfolder.
+3. **Company Logo**. The company logo appearing in the top-left corner of the Html page can be altered by replacing the **logo.png** file located in the StarUML Extensions resources subfolder. 
+4. **StarUML Menu Behavior**.  The StarUML menu behavior can be altered in the **main.js** file located in the StarUML Extensions folder.
+
