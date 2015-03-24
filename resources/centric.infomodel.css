@@ -348,17 +348,21 @@ clear:both;
 
 #content-container SPAN.namespace
 {
-  font-size: 1em;
+  font-size: 0.8em;
   font-weight: 600;  
   border: 1px #999999 solid;
   background-color: #F7F7F7;
-  padding: 0.5em;
-  padding-top: 0.1em;
-  padding-bottom: 0.2em;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 1px 1px 1px #EEEEEE;
   white-space: nowrap;
   display:inline;
+
+  padding: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.2em;
+  margin-bottom: 0em;
+  margin-right: 0.5em;
+  float:left;
 }
 
 #content-container SPAN.namespace A
@@ -373,6 +377,7 @@ clear:both;
 {
   color: #999999;
 }
+
 
 
 #content-container SPAN
@@ -395,6 +400,24 @@ clear:both;
   font-size: 3em;
   display:inline-block;
   color: #316BAA;
+}
+
+#content-container TABLE.title TD
+{
+  vertical-align:bottom;
+  white-space:nowrap;
+}
+
+#content-container TABLE.title TD
+{
+  vertical-align:bottom;
+  white-space:nowrap;
+}
+
+#content-container TABLE.title TD.namespace
+{
+  padding-bottom: 1em; /* equivalent to baseline height of title text */
+  padding-right: 0.5em;
 }
 
 
@@ -439,13 +462,13 @@ color:#333333;
   border: 1px #999999 solid;
   background-color: #666666;
   color: #F7F7F7;
-  padding: 0.5em;
-  padding-top: 0.1em;
-  padding-bottom: 0.1em;
   border-radius: 4px;
   box-shadow: 1px 1px 1px #CCCCCC;
   white-space: nowrap;
-  margin-bottom: 0.2em;
+  padding: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.2em;
+  margin-bottom: 0em;
   margin-right: 0.5em;
   float:left;
 }
@@ -467,26 +490,6 @@ color:#333333;
   font-weight: 600;  
   color: #333333;
 }
-
-
-#content-container TABLE.title TD
-{
-  vertical-align:bottom;
-  white-space:nowrap;
-}
-
-#content-container TABLE.title TD
-{
-  vertical-align:bottom;
-  white-space:nowrap;
-}
-
-#content-container TABLE.title TD.namespace
-{
-  padding-bottom: 0.75em; /* equivalent to baseline height of title text */
-  padding-right: 0.5em;
-}
-
 
 #content-container TABLE.attribute
 {
