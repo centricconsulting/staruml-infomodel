@@ -4,7 +4,7 @@
     "description": "Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file.",
     "homepage": "https://github.com/jkanel/staruml-infomodel",
     "version": "0.9.0",
-    "keywords": ["Centric", "Information","Model", "StarUML", "Extension"],
+    "keywords": ["html","xml","information","model"],
     "author": {
         "name": "Jeff Kanel",
         "email": "jeff.kanel@centricconsulting.com",
