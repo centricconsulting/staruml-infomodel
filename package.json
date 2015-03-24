@@ -1,5 +1,5 @@
 {
-    "name": "com.centric.infomodel.html",
+    "name": "com.centric.infomodel",
     "title": "Centric Information Model HTML",
     "description": "Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file.",
     "homepage": "https://github.com/jkanel/staruml-infomodel",
