@@ -358,6 +358,7 @@ clear:both;
   border-radius: 8px;
   box-shadow: 1px 1px 1px #EEEEEE;
   white-space: nowrap;
+  display:inline;
 }
 
 #content-container SPAN.namespace A
@@ -430,6 +431,36 @@ color:#333333;
 {
   color: #333333;
 }
+
+#content-container SPAN.marker
+{
+  font-size: 0.8em;
+  font-weight: 400;  
+  border: 1px #999999 solid;
+  background-color: #666666;
+  color: #F7F7F7;
+  padding: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  border-radius: 4px;
+  box-shadow: 1px 1px 1px #CCCCCC;
+  white-space: nowrap;
+  margin-bottom: 0.2em;
+  margin-right: 0.5em;
+  float:left;
+}
+
+#content-container SPAN.marker IMG
+{
+  height: 0.8em;
+  width: auto;
+  padding:0;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  margin:0;
+}
+
+
 
 #content-container SPAN.label
 {

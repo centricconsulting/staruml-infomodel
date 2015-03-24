@@ -490,8 +490,11 @@
           </span>
           </td>
         </tr>
-        
-        <xsl:apply-templates select="attribute" mode="content-container" />
+
+          <xsl:apply-templates select="attribute" mode="content-container">
+            <xsl:sort select="is-unique" order="descending" />
+            <xsl:sort select="name"/>
+          </xsl:apply-templates>
 
         </xsl:if>
 
@@ -534,6 +537,20 @@
 
     <td>
       <span class="label">
+
+        <xsl:if test="is-unique = 'true'">
+          <span class="marker">
+            <img src="resources/grain.png" />
+          </span>
+        </xsl:if>
+
+        <xsl:if test="multiplicity != '1'">
+          <span class="marker">
+            <xsl:value-of select="multiplicity"/>
+          </span>
+        </xsl:if>
+
+
         <xsl:value-of select="name"/>
       </span>
     </td>
@@ -572,7 +589,21 @@
 
 
     <td>
+
         <span class="description">
+
+          <xsl:if test="is-identifier = 'true'">
+            <span class="marker">
+              <img src="resources/identifier.png" />
+            </span>
+          </xsl:if>
+
+          <xsl:if test="is-derived = 'true'">
+            <span class="marker">
+              Derived
+            </span>
+          </xsl:if>
+
           <xsl:choose>
             <xsl:when test="string-length(documentation)=0">
               Documentation is not available.
