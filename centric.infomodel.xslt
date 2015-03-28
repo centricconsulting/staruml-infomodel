@@ -482,6 +482,12 @@
 
       <table class="attribute">
 
+        <!--
+        ##############################################
+        ### Attribute Table Rows
+        ##############################################
+        -->
+
         <xsl:if test="count(attribute)>0" >
         <tr>
           <td class="header" colspan="3">
@@ -498,6 +504,11 @@
 
         </xsl:if>
 
+        <!--
+        ##############################################
+        ### Operation Table Rows
+        ##############################################
+        -->
         <xsl:if test="count(operation)>0" >
         <tr>
           <td class="header" colspan="3">
@@ -508,7 +519,19 @@
         </tr>
 
         <xsl:apply-templates select="operation" mode="content-container" />
+
         </xsl:if>
+
+        <!--
+        ##############################################
+        ### Enums Literals Table Rows
+        ##############################################
+        -->
+
+        <xsl:apply-templates select="enum" mode="content-container">
+          <xsl:sort select="name" />
+        </xsl:apply-templates>
+
       </table>
 
     </div>
@@ -517,16 +540,75 @@
 
     <!--
   ###########################################################################
-  Class Attribute Content Container
+  Enum Content Container
   ###########################################################################
   -->
 
+  <xsl:template match="enum" mode="content-container">
+
+    <xsl:if test="count(enumliteral)>0" >
+      <tr>
+        <td class="header" colspan="3">
+          <span class="header">
+            
+            <xsl:if test="string-length(name)>0">
+              <span class="description">
+                <span class="marker">
+                  <xsl:value-of select="name"/>
+                </span>
+              </span>
+            </xsl:if>
+
+          </span>
+        </td>
+      </tr>
+
+      <xsl:apply-templates select="enumliteral" mode="content-container" />
+    </xsl:if>
+  </xsl:template>
+
 
   <!--
-    ###########################################################################
-    Model-Attribute Content Container
-    ###########################################################################
-    -->
+  ###########################################################################
+  Enum Literal Content Container
+  ###########################################################################
+  -->
+
+  <xsl:template match="enumliteral" mode="content-container">
+
+    <tr>
+      <xsl:if test="position() mod 2 = 1">
+        <xsl:attribute name="class">altcolor</xsl:attribute>
+      </xsl:if>
+
+      <td colspan="2">
+        <span class="label">
+          <xsl:value-of select="name"/>
+        </span>
+      </td>
+
+      <td>
+
+        <span class="description">
+          <xsl:choose>
+            <xsl:when test="string-length(documentation)=0">
+              Documentation is not available.
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="documentation"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </span>
+      </td>
+    </tr>
+
+  </xsl:template>
+
+  <!--
+  ###########################################################################
+  Model-Attribute Content Container
+  ###########################################################################
+  -->
 
   <xsl:template match="attribute" mode="content-container">
 
@@ -619,10 +701,10 @@
 
 
   <!--
-    ###########################################################################
-    Model-Operations Content Container
-    ###########################################################################
-    -->
+  ###########################################################################
+  Model-Operations Content Container
+  ###########################################################################
+  -->
 
   <xsl:template match="operation" mode="content-container">
 
