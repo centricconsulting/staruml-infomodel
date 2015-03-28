@@ -501,7 +501,7 @@ color:#333333;
 
 #content-container TABLE.attribute
 {
-max-width:80em;
+max-width:90em;
 }
 
 
@@ -514,6 +514,7 @@ max-width:80em;
   border: 1px solid #EFEFEF;
   border-left: 0px;
   border-right: 0px;
+  min-width: 10em;
 }
 
 #content-container TABLE.attribute TR.altcolor TD

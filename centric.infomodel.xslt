@@ -26,6 +26,9 @@
           <xsl:call-template name="script" />
         </script>
 
+        <!-- Strapdown.js Markdown Reference www.strapdownjs.com-->
+        <script src="http://strapdownjs.com/v/0.2/strapdown.js"></script>
+
         <!-- MathJax Script Reference www.mathjax.org -->
         <script type="text/javascript"
           src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">        
