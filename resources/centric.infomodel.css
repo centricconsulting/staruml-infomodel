@@ -197,7 +197,7 @@ font-size: 1.4em;
 font-weight: 400;
 }
 
-#model-container
+#domain-container
 {
   padding: 1.2em;
   padding-top: 0em; /* no additional spacing in addition to container margin */
@@ -227,21 +227,21 @@ Model Container holds class and content sections
 */
 
 
-#model-container::-webkit-scrollbar {
+#domain-container::-webkit-scrollbar {
     width: 12px;
 }
  
-#model-container::-webkit-scrollbar-track {
+#domain-container::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
     border-radius: 10px;
 }
  
-#model-container::-webkit-scrollbar-thumb {
+#domain-container::-webkit-scrollbar-thumb {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
 
-#model-container A
+#domain-container A
 {
   color: #333333;
   -webkit-transition:color .2s ease-in-out;
@@ -249,13 +249,13 @@ Model Container holds class and content sections
 
 }
 
-#model-container A:hover
+#domain-container A:hover
 {
   color: #999999;
 }
 
 
-#model-container UL
+#domain-container UL
 {
 margin: 0;
 padding: 0;
@@ -264,7 +264,7 @@ width: 100%;
 list-style-type: none;
 }
 
-#model-container LI
+#domain-container LI
 {
 margin: 0;
 padding: 0;
@@ -276,29 +276,29 @@ white-space: normal;
 border-top: 1px #EFEFEF solid;
 }
 
-#model-container LI.altcolor
+#domain-container LI.altcolor
 {
 background-color: #F7F7F7;
 }
 
-#model-container LI.lastclass
+#domain-container LI.lastclass
 {
 border-bottom: 1px #CCCCCC solid;
 }
 
-#model-container LI A
+#domain-container LI A
 {
   display: block; 
   width: 100%;
 }
 
-#model-container LI SPAN
+#domain-container LI SPAN
 {
 width: 100%;
 margin:auto;
 }
 
-#model-container LI IMG
+#domain-container LI IMG
 {  
   display:block;
   border: 0px;
@@ -311,7 +311,7 @@ margin:auto;
   margin: auto; /* centers the image in the block */  
 }
 
-#model-container LI DIV.placeholder
+#domain-container LI DIV.placeholder
 {  
   display:block;
   border: 0px;
@@ -496,10 +496,7 @@ color:#333333;
 max-width:80em;
 }
 
-#content-container TABLE.attribute TR.altcolor TD
-{
-  background-color: #F7F7F7;
-}
+
 
 #content-container TABLE.attribute TD
 {
@@ -509,6 +506,17 @@ max-width:80em;
   border: 1px solid #EFEFEF;
   border-left: 0px;
   border-right: 0px;
+}
+
+#content-container TABLE.attribute TR.altcolor TD
+{
+  background-color: #F7F7F7;
+}
+
+
+#content-container TABLE.attribute TR.implementation TD
+{
+  background-color: #b2ccd8;
 }
 
 #content-container TABLE.attribute TD.header

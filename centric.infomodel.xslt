@@ -90,8 +90,8 @@
 
         <div id="main-container">
 
-          <section id="model-container">
-            <xsl:apply-templates select="//project/model" mode="model-container">
+          <section id="domain-container">
+            <xsl:apply-templates select="//project/model" mode="domain-container">
               <xsl:sort select="name" order="ascending"/>
             </xsl:apply-templates>     
           </section>
@@ -103,7 +103,7 @@
             Project Contents
             #################################################################
             -->
-            
+
             <xsl:apply-templates select="//project" mode="content-container">
               <xsl:sort select="name" order="ascending"/>
             </xsl:apply-templates>
@@ -148,25 +148,7 @@
 
               <xsl:attribute name="style">display:none;</xsl:attribute>
 
-              <table class="title">
-                <tr>
-
-                  <td>
-                    <span class="title">
-                      Information
-                    </span>
-                  </td>
-
-                </tr>
-              </table>
-
-              <span class="section">
-                <span class="definition">
-                  <img src="resources/definition.png" />
-                  Describes how to navigate and even customize this document.
-                </span>
-              </span>
-
+              <xsl:call-template name="information" />
             </div>
 
           </section>
@@ -225,7 +207,7 @@
   #################################################################
   -->
 
-  <xsl:template match="model" mode="model-container">
+  <xsl:template match="model" mode="domain-container">
 
     <div class="control" id="model-{@id}">
 
@@ -245,7 +227,7 @@
       <!-- list all the classes -->
       <ul>
 
-        <xsl:apply-templates select="class" mode="model-container">          
+        <xsl:apply-templates select="class" mode="domain-container">          
           <xsl:sort select="name"/>
         </xsl:apply-templates>
       
@@ -254,7 +236,7 @@
 
   </xsl:template>
 
-  <xsl:template match="class" mode="model-container">
+  <xsl:template match="class" mode="domain-container">
 
     <li>
 
@@ -305,12 +287,9 @@
 
   <!--
   #################################################################
-  Content Templates
+  CONTENT CONTAINERS
   #################################################################
-  -->
 
-
-  <!--
   ###########################################################################
   Project Content Container
   ###########################################################################
@@ -344,6 +323,96 @@
         </xsl:choose>
         </span>
       </span>
+
+      <table class="attribute">
+
+        <!-- DOMAINS -->
+
+        <tr>
+          <td class="header" colspan="2">
+            <span class="header">
+              Project Details
+            </span>
+          </td>
+        </tr>
+        
+        <tr class="altcolor">
+          <td>
+            <span class="label">
+              File Name
+            </span>
+          </td>
+          <td>
+            <xsl:value-of select="file-name"/>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span class="label">
+              Last Modified
+            </span>
+          </td>
+          <td>
+            <xsl:value-of select="modified-date"/>
+          </td>
+        </tr>
+
+        <tr class="altcolor">
+          <td>
+            <span class="label">
+              Version
+            </span>
+          </td>
+          <td>
+            <xsl:choose>
+              <xsl:when test="string-length(version)=0">
+                <em>Not specified.</em>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="version"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <span class="label">
+              Author
+            </span>
+          </td>
+          <td>
+            <xsl:choose>
+              <xsl:when test="string-length(author)=0">
+                <em>Not specified.</em>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="author"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </td>
+        </tr>
+
+        <tr class="altcolor">
+          <td>
+            <span class="label">
+              Copyright
+            </span>
+          </td>
+          <td>
+            <xsl:choose>
+              <xsl:when test="string-length(copyright)=0">
+                <em>Not specified.</em>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="copyright"/>
+              </xsl:otherwise>
+            </xsl:choose>            
+          </td>
+        </tr>
+
+      </table>
 
     </div>
 
@@ -513,7 +582,7 @@
         <tr>
           <td class="header" colspan="3">
             <span class="header">
-              Operations
+              Metrics &amp; Sets
             </span>
           </td>
         </tr>
@@ -757,6 +826,329 @@
     </tr>
   </xsl:template>
 
+  <!--
+  ###########################################################################
+  Information Content Container
+  ###########################################################################
+  -->
+
+
+  <xsl:template name="information">
+
+
+    <table class="title">
+      <tr>
+        <td>
+          <span class="title">
+            Information
+          </span>
+        </td>
+      </tr>
+    </table>
+    <span class="section">
+      This document represents a library of business information.
+    </span>
+
+    <table class="attribute">
+
+      <!-- DOMAINS -->
+
+      <tr>
+        <td class="header">
+          <span class="header">
+            Domains
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <b>Domains represent a collection of related concepts.
+            Within a domain each named conept has a specific definition.</b>
+            
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <img src="resources/model_nav.png" style="width:30px;height:auto;" />
+            Domains are represented by a globe.
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <img src="resources/diagram_nav.png" style="width:30px;height:auto;" />
+            Diagrams allow you to visualize relationships between concepts.
+          </span>
+        </td>
+      </tr>
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Each domain is implemented as a <b>model</b> in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Diagrams are images of <b>class diagrams</b> created in StarUML.
+          </span>
+        </td>
+      </tr>
+
+
+      <!-- CLASSES -->
+      <tr>
+        <td class="header">
+          <span class="header">
+            Concepts
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <b>Concepts are generic entities that play a role in the business.
+            They may be described by attributes, merics, formulas or events that occur in their business lifecycle.</b>
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <img src="resources/definition.png" />
+            Quotes indicate that that a description has been provided.
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <img src="resources/enum_flag.png" />
+            Horizontal bars indicate that instance values have been specified. These values may represent a complete set
+            or they may be several representative examples.
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <img src="resources/attributes_flag.png" />
+            Dots indicate that attributes, metrics or formulas have been specified.
+          </span>
+        </td>
+      </tr>
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Each concept is implemented as a <b>class</b> in StarUML.
+          </span>
+          </td>
+      </tr>
+
+      <!-- Attributes -->
+      <tr>
+        <td class="header">
+          <span class="header">
+            Attributes
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <b>Attributes reside within concepts. Each describes a single instance of a concept.</b>
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <span class="marker">
+              <img src="resources/grain.png" />
+            </span>
+            A metric may resolve to a value that is represented by a Concept.  In that case,
+            a link to the concept is provided for simple navigation.
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <span class="marker">0..*</span>
+            Multiplicity of attributes is typically <b>1</b>, meaning that every
+            one instance of a concept is described-by or is related-to exactly one
+            of the associated attribute.  In some cases multiplicity may be differnt than 1.  For example,
+            a "Department" may have an attribute of "Employees" with a multiplicity of <b>1..*</b>, meaning that
+            each one department has one-to-may employees.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <span class="namespace">
+              Concept
+            </span>
+            An attribute may represent another concept ("Employer") or collection of concepts ("Skills"). In that case,
+            a link to that concept is provided for simple navigation. Often
+            the related concept has a distinct role that it plays. For example, "Top Skill" may be a reference to a "Skill"
+            concept playing the role of "Top Skill".
+          </span>
+        </td>
+      </tr>
+
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <span class="marker">
+              <img src="resources/identifier.png" />
+            </span>
+            An attribute is considered to be an identifier if it uniquely identifies each instance of the concept.
+            Examples may include "Order Number", "SSN", "Country Code".
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <span class="marker">Derived</span> Indicates that an attribute is derived in some manner of forumla or other logic.
+            In most cases, attributes are assigned rather than derived.
+          </span>
+        </td>
+      </tr>
+
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Each attribute is implemented as an <b>attribute</b> in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> An attribute is considered part of the concept grain
+            when the <b>attribute >> isUnique</b> checkbox is checked in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Multiplicity is selected in the <b>attribute >>  multiplicity</b> dropdown in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> The relationship to another concept is done by selecting a <b>class</b>
+            from the <b>attribute >> stereotype</b> selector in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> An attribute is considered an identifier if the
+            <b>attribute >> isID</b> checkbox is checked in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> An attribute is considered to be derived if the
+            <b>attribute >> isDerived</b> checkbox is checked in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <!-- METRICS -->
+      <tr>
+        <td class="header">
+          <span class="header">
+            Metrics &amp; Sets
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <b>
+              Metrics are formulas that act across sets of information to (a) aggregate values, or (b) identify a set of values.
+              Metrics and sets may be associated with a concept while not necessarily describing a single instance of the concept.
+              That is a fundamental difference between attributes and metrics.
+            </b>
+          </span>
+        </td>
+      </tr>
+
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <span class="namespace">
+              Concept
+            </span>
+            A metric may resolve to a concept ("Grade") or collection (set) of concepts ("Qualified Members"). In that case,
+            a link to the concept is provided for simple navigation. 
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Each metric is implemented as an <b>operation</b> in StarUML.
+          </span>
+        </td>
+      </tr>
+
+      <!-- METRICS -->
+      <tr>
+        <td class="header">
+          <span class="header">
+            Instances
+          </span>
+        </td>
+      </tr>
+      <tr class="altcolor">
+        <td>
+          <span class="description">
+            <b>A concept may have instances that should be defined.  For example, the concept "Product Type"
+            may have instances of "Clothing", "Sporting Goods", etc.  Instances are still conceptual in nature and 
+            inherit the attributes, metrics and other characteristics of the reference concept.</b>
+          </span>
+        </td>
+      </tr>
+
+      <tr class="implementation">
+        <td>
+          <span class="description">
+            <span class="marker">StarUML</span> Each set of instances are represented by an <b>enumeration</b> in StarUML.
+            A <b>class</b> should only have a single <b>enumeration</b> associated with it, though it is possible to create more.
+            Within the <b>enumeration</b> are <b>enumeration literals</b>, each of which describes an instance.
+          </span>
+        </td>
+      </tr>
+
+    </table>
+
+
+  </xsl:template>
 
   <xsl:template name="script">
   <![CDATA[
@@ -774,7 +1166,7 @@
   function displayModel(modelid)
   {
 
-    var model = document.getElementById("model-container");
+    var model = document.getElementById("domain-container");
 
     var elements = model.getElementsByTagName("div");
    
