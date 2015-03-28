@@ -1,4 +1,20 @@
+/* 
+#################################################################
+NOTES
+
+1. MathJax appears to be affected by SPAN.style=display:block. Causes strange rendering of fonts.
+
+#################################################################
+*/
+
+/* 
+#################################################################
+Font Imports
+#################################################################
+*/
+
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+
 
 /* 
 #################################################################
@@ -35,6 +51,7 @@ TD
 font-size: 1.2em;
 border: 0px;
 }
+
 
 
 /* 
@@ -378,13 +395,6 @@ clear:both;
   color: #999999;
 }
 
-
-
-#content-container SPAN
-{
-  display:block;
-}
-
 #content-container SPAN IMG
 {
   display:block;
@@ -482,8 +492,6 @@ color:#333333;
   padding-bottom: 0.25em;
   margin:0;
 }
-
-
 
 #content-container SPAN.label
 {

@@ -20,11 +20,34 @@
           <xsl:value-of select="//project/name"/>
         </title>
 
+        <link href="resources/centric.infomodel.css" rel="stylesheet" type="text/css" />
+
         <script type="text/javascript">
           <xsl:call-template name="script" />
         </script>
 
-        <link href="resources/centric.infomodel.css" rel="stylesheet" type="text/css" />
+        <!-- MathJax Script Reference www.mathjax.org -->
+        <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">        
+        </script>
+
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+
+          tex2jax: {
+          inlineMath: [["$","$"],["\\(","\\)"]],
+          processEscapes: true
+          },
+
+          "HTML-CSS": {
+            preferredFont: "STIX",
+            scaling: 100
+          }
+
+          });
+        </script>
+
+
       
       </head>
       <body>
@@ -55,7 +78,7 @@
               Version <xsl:value-of select="//project/version"/>
             </li>
             </xsl:if>
-           
+
           </ul>
 
         </nav>
@@ -82,7 +105,6 @@
                 </span>
               </a>
             </li>
-
 
           </ul>
 
@@ -145,7 +167,6 @@
             -->
 
             <div class="control" id="information">
-
               <xsl:attribute name="style">display:none;</xsl:attribute>
 
               <xsl:call-template name="information" />
@@ -297,7 +318,7 @@
 
   <xsl:template match="project" mode="content-container">
 
-    <!-- project div -->
+    <!-- project div -->    
     <div class="control" id="project-{@id}" style="display:block;">
 
       <table class="title"><tr>
@@ -754,7 +775,7 @@
               Derived
             </span>
           </xsl:if>
-
+         
           <xsl:choose>
             <xsl:when test="string-length(documentation)=0">
               Documentation is not available.
@@ -763,6 +784,7 @@
               <xsl:value-of select="documentation"/>
             </xsl:otherwise>
           </xsl:choose>
+
         </span>
     </td>
     </tr>
