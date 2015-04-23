@@ -342,7 +342,7 @@
             <em>Documentation is not available.</em>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="documentation"/>
+            <xsl:apply-templates select="documentation" mode="rich-text"/>
           </xsl:otherwise>
         </xsl:choose>
         </span>
@@ -567,7 +567,8 @@
             <em>Documentation is not available.</em>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="documentation"/>
+            <xsl:apply-templates select="documentation" mode="rich-text"/>
+            <!--xsl:value-of select="documentation"/-->
           </xsl:otherwise>
         </xsl:choose>
         </span>
@@ -850,6 +851,36 @@
       </td>
     </tr>
   </xsl:template>
+
+  
+  <!--
+  ###########################################################################
+  Documentation Rich Text
+  ###########################################################################
+  -->
+
+  <xsl:template match="documentation" mode="rich-text">
+    <xsl:apply-templates/>  
+  </xsl:template>
+
+  <xsl:template match="text()" name="insertBreaks">
+    <xsl:param name="pText" select="."/>
+
+    <xsl:choose>
+     <xsl:when test="not(contains($pText, '&#xA;'))">
+       <xsl:copy-of select="$pText"/>
+     </xsl:when>
+     <xsl:otherwise>
+       <xsl:value-of select="substring-before($pText, '&#xA;')"/>
+       <br />
+       <xsl:call-template name="insertBreaks">
+         <xsl:with-param name="pText" select=
+           "substring-after($pText, '&#xA;')"/>
+       </xsl:call-template>
+     </xsl:otherwise>
+   </xsl:choose>
+ </xsl:template>
+
 
   <!--
   ###########################################################################
@@ -1174,6 +1205,7 @@
 
 
   </xsl:template>
+
 
   <xsl:template name="script">
   <![CDATA[
