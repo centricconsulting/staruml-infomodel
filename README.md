@@ -2,11 +2,11 @@
 StarUML Extension. Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file. Validated for StarUML version 2.1.1.  Java source project is http://github.com/jkanel/staruml-infomodel-java.
 
 **Other Features:**
-* Supports LaTex and MathML formula languages.
+* Supports LaTex and MathML formula markup.
 * Honors carriage returns in the rendering of Html (added 2015-05-15).
 
 ## Extension Use
-0. Install Java 1.6 or higher.
+0. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 1. From within StarUML, select the menu ```File >> Export >> Information Model Html...```
 2. Enter a target Html filename.  It is recommended that target folder be dedicated for this purpose.
 3. The extension will automatically generate the following:
@@ -21,7 +21,7 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 
 ## Extension Installation Options
 ### #1 - StarUML Extension Manager
-0. Install Java 1.6 or higher.
+0. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 1. Open the StarUML application.
 2. Select the menu ```Tools >> Extension Manager...```
 3. Click the ```Install From Url...``` button.
