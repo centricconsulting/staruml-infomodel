@@ -2,7 +2,7 @@
 StarUML Extension. Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file. Validated for StarUML version 2.1.1.  Java source project is http://github.com/jkanel/staruml-infomodel-java.
 
 **Other Features:**
-* Supports LaTex and MathML formula markup. http://docs.mathjax.org/en/latest/tex.html
+* Support for LaTex and MathML formula markup. http://docs.mathjax.org/en/latest/tex.html
 * Honors carriage returns in the rendering of Html (added 2015-05-15).
 
 ## Extension Use
