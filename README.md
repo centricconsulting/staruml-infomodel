@@ -6,7 +6,6 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 * Honors carriage returns in the rendering of Html (added 2015-05-15).
 
 ## Extension Use
-0. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 1. From within StarUML, select the menu ```File >> Export >> Information Model Html...```
 2. Enter a target Html filename.  It is recommended that target folder be dedicated for this purpose.
 3. The extension will automatically generate the following:
@@ -29,6 +28,7 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 5. The extension will automatically install.
 
 ### #2 - Manual Windows Installation
+0. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 1. Open Windows Explorer and navigate to ```C:\Users\{user}\AppData\Roaming\StarUML\extensions\user``` where ```{user}``` is your windows login user name.
 2. Download the file http://github.com/jkanel/staruml-infomodel/archive/master.zip to your local drive.
 3. Open the zip archive and extract the ```staruml-infomodel-master``` folder to the ```\extensions\user``` folder (see #1, above).
