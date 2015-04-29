@@ -472,7 +472,7 @@
               <em>Documentation is not available.</em>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:value-of select="documentation"/>
+              <xsl:apply-templates select="documentation" mode="rich-text"/>
             </xsl:otherwise>
           </xsl:choose>
         </span>
@@ -518,7 +518,7 @@
             <em>Documentation is not available.</em>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="documentation"/>
+            <xsl:apply-templates select="documentation" mode="rich-text"/>
           </xsl:otherwise>
         </xsl:choose>
         </span>
@@ -689,7 +689,7 @@
               Documentation is not available.
             </xsl:when>
             <xsl:otherwise>
-              <xsl:value-of select="documentation"/>
+              <xsl:apply-templates select="documentation" mode="rich-text"/>
             </xsl:otherwise>
           </xsl:choose>
         </span>
@@ -785,7 +785,7 @@
               Documentation is not available.
             </xsl:when>
             <xsl:otherwise>
-              <xsl:value-of select="documentation"/>
+              <xsl:apply-templates select="documentation" mode="rich-text"/>
             </xsl:otherwise>
           </xsl:choose>
 
@@ -844,7 +844,7 @@
               Documentation is not available.
             </xsl:when>
             <xsl:otherwise>
-              <xsl:value-of select="documentation"/>
+              <xsl:apply-templates select="documentation" mode="rich-text"/>
             </xsl:otherwise>
           </xsl:choose>
         </span>
