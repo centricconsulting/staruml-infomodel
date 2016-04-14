@@ -327,7 +327,6 @@ define(function (require, exports, module) {
 
   // Setup Menus
   var menuItem = MenuManager.getMenuItem(Commands.FILE_EXPORT);
-  menuItem.addMenuDivider();
   menuItem.addMenuItem(CMD_INFO_MODEL_EXPORT);
   menuItem.addMenuItem(CMD_INFO_LIBRARY_EXPORT);
 
