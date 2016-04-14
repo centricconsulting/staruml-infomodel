@@ -55,7 +55,8 @@ define(function (require, exports, module) {
 	var ModuleDirectory = FileUtils.stripTrailingSlash(ExtensionUtils.getModulePath(module));
 	
   // get xslt file
-	var XsltFilePath = ModuleDirectory + "/centric.infomodel.xslt";
+	var InfoModelXsltFilePath = ModuleDirectory + "/centric.infomodel.xslt";
+  var InfoLibraryXsltFilePath = ModuleDirectory + "/centric.infolibrary.xslt";
 	
 	// get source resource directory
 	var SourceResourcePath = ModuleDirectory + '/resources';
@@ -79,7 +80,7 @@ define(function (require, exports, module) {
   // Export Logic
   // #######################################################
 	
-  function controlExport(TargetFilePath) {
+  function controlInfoModelExport(TargetFilePath) {
 
   	var result = new $.Deferred();
   	
@@ -99,11 +100,35 @@ define(function (require, exports, module) {
     
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
-    var command = buildProcessCommand(ProjectFilePath, TargetFilePath, XsltFilePath);
+    var command = buildInfoModelCommand(ProjectFilePath, TargetFilePath, InfoLibraryXsltFilePath);
     
     // identify the target directory to execute the command
 		var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
 		executeProcess(command, ExecuteDirectory);
+   
+    return result.promise();
+  }
+
+  function controlInfoLibraryExport(TargetFilePath) {
+
+    var result = new $.Deferred();
+    
+    // extract the TargetFolderPath from the file path
+    var TargetFolderPath = FileUtils.getDirectoryPath(TargetFilePath);
+    var TargetFileName = FileUtils.getBaseName(TargetFilePath);
+    
+    // copy resources
+    var TargetResourcePath = TargetFolderPath + TargetResourceFolderName;
+    createFolder(TargetResourcePath);
+    copyResources(SourceResourcePath, TargetResourcePath);
+    
+    // execute process
+    var ProjectFilePath = ProjectManager.getFilename();
+    var command = buildInfoModelCommand(ProjectFilePath, TargetFilePath, InfoModelXsltFilePath);
+    
+    // identify the target directory to execute the command
+    var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
+    executeProcess(command, ExecuteDirectory);
    
     return result.promise();
   }
@@ -184,18 +209,31 @@ define(function (require, exports, module) {
   // Execute External Process
   // #######################################################
 
-  function buildProcessCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
+  function buildInfoModelCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
   	var command = XsltProcessExecutable + " "
   	+ "-p \"" + projectFilePath + "\" "
   	+ "-t \"" + targetFilePath + "\" "
   	+ "-x \"" + sourceXsltFilePath + "\" "
   	+ "-g";
   	
-  	console.log("buildProcessCommand::command = " + command);
+  	console.log("buildInfoModelCommand::command = " + command);
   	
   	return command;  	
   }
   
+  function buildInfoLibraryCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
+    var command = XsltProcessExecutable + " "
+    + "-p \"" + projectFilePath + "\" "
+    + "-t \"" + targetFilePath + "\" "
+    + "-x \"" + sourceXsltFilePath + "\" "
+    + "-g";
+    
+    console.log("buildInfoModelCommand::command = " + command);
+    
+    return command;   
+  }
+  
+
   function executeProcess(command, executeDirectory) {  	
 		// execute
 		console.log("executeProcess::command = " + command);
@@ -230,7 +268,7 @@ define(function (require, exports, module) {
       FileSystem.showSaveDialog("Export Information Model HTML", null, DefaultTargetFilename, function (err, selectedPath) {
       		
         if (!err) {
-          controlExport(selectedPath).then(result.resolve, result.reject);
+          controlInfoModelExport(selectedPath).then(result.resolve, result.reject);
         } else {
           result.reject(err);
         }
@@ -238,21 +276,59 @@ define(function (require, exports, module) {
       });    	
     
     } else {    
-      controlExport(fullPath).then(result.resolve, result.reject);
+      controlInfoModelExport(fullPath).then(result.resolve, result.reject);
     }
 
     return result.promise();
   }
+
+
+  function _handleInfoLibraryExport(fullPath) {
+
+    var result = new $.Deferred();
+
+    if (Repository.isModified() || !ProjectManager.getFilename()) {
+      // cancel operation if document not saved
+      Dialogs.showInfoDialog("Save changes before exporting the Information Library CSV File.").done(function () {
+          result.reject(USER_CANCELED);
+      });
+      
+    } else if (!fullPath) {    
+        
+      // generate default target file name
+      var DefaultTargetFilename = FileUtils.convertToWindowsFilename(ProjectManager.getProject().name + ".csv");   
+      
+      FileSystem.showSaveDialog("Export Information Library CSV File", null, DefaultTargetFilename, function (err, selectedPath) {
+          
+        if (!err) {
+          controlInfoLibraryExport(selectedPath).then(result.resolve, result.reject);
+        } else {
+          result.reject(err);
+        }
+        
+      });     
+    
+    } else {    
+      controlInfoLibraryExport(fullPath).then(result.resolve, result.reject);
+    }
+
+    return result.promise();
+  }
+
   
   var CMD_INFO_MODEL_EXPORT = 'com.centric.infomodel.html.export';
+  var CMD_INFO_LIBRARY_EXPORT = 'com.centric.infolibrary.export'; 
+
   var USER_CANCELED = { userCanceled: true };
   
   // Register Commands
   CommandManager.register("Information Model HTML...", CMD_INFO_MODEL_EXPORT, _handleInfoModelExport);
+  CommandManager.register("Information Library Text File...", CMD_INFO_LIBRARY_EXPORT, _handleInfoLibraryExport);
 
   // Setup Menus
   var menuItem = MenuManager.getMenuItem(Commands.FILE_EXPORT);
   menuItem.addMenuDivider();
   menuItem.addMenuItem(CMD_INFO_MODEL_EXPORT);
+  menuItem.addMenuItem(CMD_INFO_LIBRARY_EXPORT);
 
 });
