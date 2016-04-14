@@ -289,16 +289,16 @@ define(function (require, exports, module) {
 
     if (Repository.isModified() || !ProjectManager.getFilename()) {
       // cancel operation if document not saved
-      Dialogs.showInfoDialog("Save changes before exporting the Information Library CSV File.").done(function () {
+      Dialogs.showInfoDialog("Save changes before exporting the Information Library Text File.").done(function () {
           result.reject(USER_CANCELED);
       });
       
     } else if (!fullPath) {    
         
       // generate default target file name
-      var DefaultTargetFilename = FileUtils.convertToWindowsFilename(ProjectManager.getProject().name + ".csv");   
+      var DefaultTargetFilename = FileUtils.convertToWindowsFilename(ProjectManager.getProject().name + ".txt");   
       
-      FileSystem.showSaveDialog("Export Information Library CSV File", null, DefaultTargetFilename, function (err, selectedPath) {
+      FileSystem.showSaveDialog("Export Information Library Text File", null, DefaultTargetFilename, function (err, selectedPath) {
           
         if (!err) {
           controlInfoLibraryExport(selectedPath).then(result.resolve, result.reject);
