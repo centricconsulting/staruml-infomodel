@@ -100,7 +100,7 @@ define(function (require, exports, module) {
     
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
-    var command = buildInfoModelCommand(ProjectFilePath, TargetFilePath, InfoLibraryXsltFilePath);
+    var command = buildInfoModelCommand(ProjectFilePath, TargetFilePath, InfoModelXsltFilePath);
     
     // identify the target directory to execute the command
 		var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
@@ -124,7 +124,7 @@ define(function (require, exports, module) {
     
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
-    var command = buildInfoModelCommand(ProjectFilePath, TargetFilePath, InfoModelXsltFilePath);
+    var command = buildInfoModelCommand(ProjectFilePath, TargetFilePath, InfoLibraryXsltFilePath);
     
     // identify the target directory to execute the command
     var ExecuteDirectory = ModuleDirectory + "/" + ExecuteFolderName;
