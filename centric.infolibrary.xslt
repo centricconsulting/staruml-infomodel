@@ -51,6 +51,10 @@
       <xsl:sort select="name" data-type="text"/>
     </xsl:apply-templates>
 
+    <xsl:apply-templates select="reception">
+      <xsl:sort select="name" data-type="text"/>
+    </xsl:apply-templates>
+
   </xsl:template>
 
   <!-- CREATE ATTRIBUTE ROWS --> 
@@ -97,6 +101,33 @@
     
     <!-- Class Column -->     
     <xsl:text disable-output-escaping="yes">Derived&#x9;</xsl:text>
+
+    <!-- Type Column --> 
+    <xsl:choose>
+      <xsl:when test="string-length(stereotype/name)=0"></xsl:when>
+      <xsl:otherwise><xsl:value-of select="stereotype/name"/></xsl:otherwise>
+    </xsl:choose>
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>    
+    
+    <!-- Description Column --> 
+    <xsl:value-of select="normalize-space(documentation)"/>
+    <xsl:text disable-output-escaping="yes">&#xa;</xsl:text>    
+    
+  </xsl:template>   
+
+  <!-- CREATE OPERATION ROWS --> 
+  <xsl:template match="reception">
+
+    <!-- Entity Column --> 
+    <xsl:value-of select="ancestor::class/name"/>
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
+    
+    <!-- Attribute Column --> 
+    <xsl:value-of select="name"/>
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
+    
+    <!-- Class Column -->     
+    <xsl:text disable-output-escaping="yes">Event&#x9;</xsl:text>
 
     <!-- Type Column --> 
     <xsl:choose>
