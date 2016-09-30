@@ -571,7 +571,7 @@
 
       <table class="title"><tr>
 
-          <td>
+          <td class="namespace">
             <span class="title">
               <xsl:value-of select="name"/>
             </span>
