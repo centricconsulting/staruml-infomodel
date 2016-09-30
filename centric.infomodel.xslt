@@ -38,7 +38,7 @@
           MathJax.Hub.Config({
 
           tex2jax: {
-          inlineMath: [["$","$"],["\\(","\\)"]],
+          inlineMath: [["$$","$$"],["\\(","\\)"]],
           processEscapes: true
           },
 
@@ -125,7 +125,7 @@
 
             <!--
             #################################################################
-            Project Contents
+            Project Contents - HIDDEN
             #################################################################
             -->
 
@@ -135,7 +135,7 @@
 
             <!--
             #################################################################
-            Model Contents
+            Model Contents - HIDDEN
             #################################################################
             -->
 
@@ -145,7 +145,7 @@
 
             <!--
             #################################################################
-            Diagram Contents
+            Diagram Contents - HIDDEN
             #################################################################
             -->
 
@@ -155,7 +155,7 @@
 
             <!--
             #################################################################
-            Class Contents
+            Class Contents - HIDDEN
             #################################################################
             -->
 
@@ -165,7 +165,17 @@
 
             <!--
             #################################################################
-            Information Contents
+            Enumeration Contents - HIDDEN
+            #################################################################
+            -->
+
+            <xsl:apply-templates select="//project/model/enum" mode="content-container">
+              <xsl:sort select="name" order="ascending"/>
+            </xsl:apply-templates>
+
+            <!--
+            #################################################################
+            Information Contents - HIDDEN
             #################################################################
             -->
 
@@ -191,6 +201,10 @@
   #################################################################
   Navigation Templates
   #################################################################
+  
+  #################################################################
+  Model Navigation Templates
+  #################################################################
   -->
 
   <xsl:template match="model" mode="nav">
@@ -209,6 +223,12 @@
       </xsl:apply-templates>
 
   </xsl:template>
+
+  <!--
+  #################################################################
+  Diagram Navigation Templates
+  #################################################################
+  -->
 
   <xsl:template match="diagram" mode="nav">
 
@@ -249,16 +269,42 @@
       </xsl:choose>
 
       <!-- list all the classes -->
-      <ul>
+      <xsl:if test="count(class) > 0">
+        <ul>
 
-        <xsl:apply-templates select="class" mode="domain-container">          
-          <xsl:sort select="name"/>
-        </xsl:apply-templates>
+          <xsl:apply-templates select="class" mode="domain-container">          
+            <xsl:sort select="name"/>
+          </xsl:apply-templates>
+        
+        </ul>
+      </xsl:if>
+
       
-      </ul>
+      <xsl:if test="count(enum) > 0">
+  
+        <!-- break -->
+        <br />
+        <br />
+        <b>Values</b>
+        <!-- list all the enumerations -->
+        <ul>
+
+          <xsl:apply-templates select="enum" mode="domain-container">          
+            <xsl:sort select="name"/>
+          </xsl:apply-templates>
+        
+        </ul>
+      </xsl:if>
+
     </div>
 
   </xsl:template>
+
+  <!--
+  #################################################################
+  Class Domain Container Templates
+  #################################################################
+  -->
 
   <xsl:template match="class" mode="domain-container">
 
@@ -308,6 +354,38 @@
 
   </xsl:template>
 
+  <!--
+  #################################################################
+  Enumeration Domain Container Templates
+  #################################################################
+  -->
+
+  <xsl:template match="enum" mode="domain-container">
+
+    <li>
+
+      <xsl:if test="position() mod 2 = 1">
+        <xsl:attribute name="class">enumaltcolor</xsl:attribute>
+      </xsl:if>
+
+      <a class="nav" href="#" onclick="javascript:displayContent('class-{@id}');">
+        <span>
+          <xsl:value-of select="name"/>
+        </span>
+
+      <xsl:choose>
+        <xsl:when test="count(enumliteral) > 0">
+          <img src="resources/enum_flag.png" title="{name} has enumerations." />
+        </xsl:when>
+        <xsl:otherwise>
+          <div class="placeholder" />
+        </xsl:otherwise>
+      </xsl:choose>
+
+      </a>
+    </li>
+
+  </xsl:template>
 
   <!--
   #################################################################
@@ -493,17 +571,17 @@
 
       <table class="title"><tr>
 
+          <td>
+            <span class="title">
+              <xsl:value-of select="name"/>
+            </span>
+          </td>
+
           <td class="namespace">
             <span class="namespace">
               <a href="#" onclick="javascript:displayGlobal('model-{ancestor::model/@id}','model-{ancestor::model/@id}');">
                 <xsl:value-of select="ancestor::model/name"/>
               </a>
-            </span>
-          </td>
-
-          <td>
-            <span class="title">
-              <xsl:value-of select="name"/>
             </span>
           </td>
 
@@ -537,11 +615,20 @@
 
   <xsl:template match="class" mode="content-container">
 
+
+
     <!-- project div -->
     <div class="control" id="class-{@id}" style="display:none;">
 
 
      <table class="title"><tr>
+
+        <td class="namespace">
+            <span class="title">
+              <xsl:value-of select="name"/>
+            </span>
+          </td>
+
 
           <td class="namespace">
             <span class="namespace">
@@ -549,11 +636,107 @@
                 <xsl:value-of select="ancestor::model/name"/>
               </a>
             </span>
+
+            <!-- display the enumerations, get the first matching -->
+            <xsl:variable name="enum-id" select="ancestor::project/model/enum[@stereotype-class-id=current()/@id]/@id[1]" />
+            <xsl:if test="string-length($enum-id)>0">
+
+              <span class="enumnamespace namespace">
+                <a href="#" onclick="javascript:displayGlobal('model-{ancestor::project/model[enum/@id=$enum-id]/@id}','class-{$enum-id}');">
+                  <xsl:value-of select="ancestor::project/model/enum[@id=$enum-id]/name"/>
+                </a>
+              </span>
+
+            </xsl:if>
+
           </td>
 
-          <td>
+      </tr></table>
+
+      <span class="section">
+        <span class="definition">
+        <img src="resources/definition.png" />
+        <xsl:choose>
+          <xsl:when test="string-length(documentation)=0">
+            <em>Documentation is not available.</em>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="documentation" mode="rich-text"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        </span>
+      </span>
+
+      <table class="attribute">
+
+        <!--
+        ##############################################
+        ### Attribute Table Rows
+        ##############################################
+        -->
+
+        <xsl:if test="count(attribute)>0" >
+        <tr>
+          <td class="header" colspan="3">
+          <span class="header">
+            Attributes
+          </span>
+          </td>
+        </tr>
+
+          <xsl:apply-templates select="attribute" mode="content-container" />
+
+        </xsl:if>
+
+        <!--
+        ##############################################
+        ### Operation Table Rows
+        ##############################################
+        -->
+        <xsl:if test="count(operation)>0" >
+        <tr>
+          <td class="header" colspan="3">
+            <span class="header">
+              Metrics &amp; Sets
+            </span>
+          </td>
+        </tr>
+
+        <xsl:apply-templates select="operation" mode="content-container" />
+
+        </xsl:if>
+
+      </table>
+
+    </div>
+
+  </xsl:template>
+
+
+  <!--
+  ###########################################################################
+  Enumeration Content Container
+  ###########################################################################
+  -->
+
+  <xsl:template match="enum" mode="content-container">
+
+    <!-- project div -->
+    <div class="control" id="class-{@id}" style="display:none;">
+
+     <table class="title"><tr>
+
+          <td class="namespace">
             <span class="title">
               <xsl:value-of select="name"/>
+            </span>
+          </td>
+
+          <td class="namespace">
+            <span class="namespace">
+              <a href="#" onclick="javascript:displayGlobal('model-{ancestor::model/@id}','model-{ancestor::model/@id}');">
+                <xsl:value-of select="ancestor::model/name"/>
+              </a>
             </span>
           </td>
 
@@ -578,93 +761,45 @@
 
         <!--
         ##############################################
-        ### Attribute Table Rows
+        ### Enumeration Literal Table Rows - 2 COLUMNS
         ##############################################
         -->
 
-        <xsl:if test="count(attribute)>0" >
+        <xsl:if test="count(enumliteral)>0" >
         <tr>
-          <td class="header" colspan="3">
-          <span class="header">
-            Attributes
-          </span>
+          <td class="header" colspan="2">
+          
+            <xsl:choose>
+              <xsl:when test="string-length(@stereotype-class-id)>0">
+
+                <span class="header" style="display:inline;float:left;padding-right:0.5em;">Instances of</span>
+                <span class="namespace" style="margin-top:1em;">
+                  <a href="#" onclick="javascript:displayGlobal('model-{ancestor::project/model[class/@id=current()/@stereotype-class-id]/@id}','class-{@stereotype-class-id}');">
+                    <xsl:value-of select="ancestor::project/model/class[@id=current()/@stereotype-class-id]/name"/>
+                  </a>
+                </span>
+              </xsl:when>
+
+              <xsl:otherwise><span class="header">Instances</span></xsl:otherwise>
+
+            </xsl:choose>
+
           </td>
         </tr>
 
-          <xsl:apply-templates select="attribute" mode="content-container">
-            <xsl:sort select="is-unique" order="descending" />
-            <xsl:sort select="name"/>
-          </xsl:apply-templates>
+          <xsl:apply-templates select="enumliteral" mode="content-container" />
 
         </xsl:if>
-
-        <!--
-        ##############################################
-        ### Operation Table Rows
-        ##############################################
-        -->
-        <xsl:if test="count(operation)>0" >
-        <tr>
-          <td class="header" colspan="3">
-            <span class="header">
-              Metrics &amp; Sets
-            </span>
-          </td>
-        </tr>
-
-        <xsl:apply-templates select="operation" mode="content-container" />
-
-        </xsl:if>
-
-        <!--
-        ##############################################
-        ### Enums Literals Table Rows
-        ##############################################
-        -->
-
-        <xsl:apply-templates select="enum" mode="content-container">
-          <xsl:sort select="name" />
-        </xsl:apply-templates>
 
       </table>
 
     </div>
 
-  </xsl:template>
-
-    <!--
-  ###########################################################################
-  Enum Content Container
-  ###########################################################################
-  -->
-
-  <xsl:template match="enum" mode="content-container">
-
-    <xsl:if test="count(enumliteral)>0" >
-      <tr>
-        <td class="header" colspan="3">
-          <span class="header">
-            
-            <xsl:if test="string-length(name)>0">
-              <span class="description">
-                <span class="marker">
-                  <xsl:value-of select="name"/>
-                </span>
-              </span>
-            </xsl:if>
-
-          </span>
-        </td>
-      </tr>
-
-      <xsl:apply-templates select="enumliteral" mode="content-container" />
-    </xsl:if>
-  </xsl:template>
-
-
+  </xsl:template>        
+  
   <!--
   ###########################################################################
-  Enum Literal Content Container
+  Enum Literal Content Container - NOTE: 2 COLUMNS
   ###########################################################################
   -->
 
@@ -672,10 +807,10 @@
 
     <tr>
       <xsl:if test="position() mod 2 = 1">
-        <xsl:attribute name="class">altcolor</xsl:attribute>
+        <xsl:attribute name="class">enumaltcolor</xsl:attribute>
       </xsl:if>
 
-      <td colspan="2">
+      <td>
         <span class="label">
           <xsl:value-of select="name"/>
         </span>
@@ -759,6 +894,18 @@
         </xsl:when>
 
       </xsl:choose>
+
+      <!-- display the enumeration, get the first enumeration with matching stereotype -->
+      <xsl:variable name="enum-id" select="ancestor::project/model/enum[@stereotype-class-id=current()/@stereotype-class-id]/@id[1]" />
+      <xsl:if test="string-length($enum-id)>0">
+
+        <span class="enumnamespace namespace">
+          <a href="#" onclick="javascript:displayGlobal('model-{ancestor::project/model[enum/@id=$enum-id]/@id}','class-{$enum-id}');">
+            <xsl:value-of select="ancestor::project/model/enum[@id=$enum-id]/name"/>
+          </a>
+        </span>
+
+      </xsl:if>
     
     </td>
 

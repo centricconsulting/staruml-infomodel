@@ -298,6 +298,11 @@ border-top: 1px #EFEFEF solid;
 background-color: #F7F7F7;
 }
 
+#domain-container LI.enumaltcolor
+{
+background-color: #B5C7E5;
+}
+
 #domain-container LI.lastclass
 {
 border-bottom: 1px #CCCCCC solid;
@@ -377,9 +382,15 @@ clear:both;
   padding: 0.5em;
   padding-top: 0.1em;
   padding-bottom: 0.2em;
-  margin-bottom: 0em;
+  margin-top:0.2em;
+  margin-bottom: 0.2em;
   margin-right: 0.5em;
   float:left;
+}
+
+#content-container SPAN.enumnamespace
+{
+  background-color: #B5C7E5;
 }
 
 #content-container SPAN.namespace A
@@ -430,6 +441,12 @@ clear:both;
   padding-right: 0.5em;
 }
 
+#content-container TABLE.title TD.namespace SPAN.namespace
+{
+  margin-bottom:1em;
+}
+
+
 
 #content-container SPAN.header
 {
@@ -437,6 +454,7 @@ font-size:2em;
 font-weight:400;
 color:#333333;
 }
+
 
 #content-container SPAN.section
 {
@@ -522,6 +540,11 @@ max-width:90em;
   background-color: #F7F7F7;
 }
 
+#content-container TABLE.attribute TR.enumaltcolor TD
+{
+  background-color: #B5C7E5;
+}
+
 
 #content-container TABLE.attribute TR.implementation TD
 {
@@ -533,3 +556,6 @@ max-width:90em;
   border: 0px;
   padding-top: 1em;
 }
+
+
+
