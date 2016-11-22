@@ -638,7 +638,7 @@
             </span>
 
             <!-- display the enumerations, get the first matching -->
-            <xsl:variable name="enum-id" select="ancestor::project/model/enum[@stereotype-class-id=current()/@id]/@id[1]" />
+            <xsl:variable name="enum-id" select="ancestor::project/model/enum[string-length(@stereotype-class-id)>0 and @stereotype-class-id=current()/@id]/@id[1]" />
             <xsl:if test="string-length($enum-id)>0">
 
               <span class="enumnamespace namespace">
@@ -697,7 +697,7 @@
         <tr>
           <td class="header" colspan="3">
             <span class="header">
-              Metrics &amp; Sets
+              Derived Attributes &amp; Metrics
             </span>
           </td>
         </tr>
@@ -896,7 +896,7 @@
       </xsl:choose>
 
       <!-- display the enumeration, get the first enumeration with matching stereotype -->
-      <xsl:variable name="enum-id" select="ancestor::project/model/enum[@stereotype-class-id=current()/@stereotype-class-id]/@id[1]" />
+      <xsl:variable name="enum-id" select="ancestor::project/model/enum[string-length(@stereotype-class-id)>0 and @stereotype-class-id=current()/@stereotype-class-id]/@id[1]" />
       <xsl:if test="string-length($enum-id)>0">
 
         <span class="enumnamespace namespace">
