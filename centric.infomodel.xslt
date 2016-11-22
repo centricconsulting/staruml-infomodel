@@ -602,7 +602,7 @@
         </span>
       </span>
 
-      <img class="diagram" src="diagrams/diagram_{@id}.svg"></img>
+      <img class="diagram" src="diagrams/diagram_{translate(@id,'//','_')}.svg"></img>
 
     </div>
   </xsl:template>
