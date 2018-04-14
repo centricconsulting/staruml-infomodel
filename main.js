@@ -72,7 +72,7 @@ define(function (require, exports, module) {
 	
 	// specify process command  
 	var ExecuteFolderName = "java";
-	
+
 	// specify process command  
 	var XsltProcessExecutable = "java -jar com.centric.infomodel.jar";
 
@@ -120,7 +120,7 @@ define(function (require, exports, module) {
     // copy resources
     var TargetResourcePath = TargetFolderPath + TargetResourceFolderName;
     createFolder(TargetResourcePath);
-    copyResources(SourceResourcePath, TargetResourcePath);
+    //copyResources(SourceResourcePath, TargetResourcePath);
     
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
@@ -210,29 +210,17 @@ define(function (require, exports, module) {
   // #######################################################
 
   function buildInfoModelCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
-  	var command = XsltProcessExecutable + " "
+    var command = XsltProcessExecutable + " "
   	+ "-p \"" + projectFilePath + "\" "
   	+ "-t \"" + targetFilePath + "\" "
   	+ "-x \"" + sourceXsltFilePath + "\" "
   	+ "-g";
   	
-  	console.log("buildInfoModelCommand::command = " + command);
-  	
+    console.log("buildInfoModelCommand::command = " + command);
+
   	return command;  	
   }
-  
-  function buildInfoLibraryCommand(projectFilePath, targetFilePath, sourceXsltFilePath) {
-    var command = XsltProcessExecutable + " "
-    + "-p \"" + projectFilePath + "\" "
-    + "-t \"" + targetFilePath + "\" "
-    + "-x \"" + sourceXsltFilePath + "\" "
-    + "-g";
     
-    console.log("buildInfoModelCommand::command = " + command);
-    
-    return command;   
-  }
-  
 
   function executeProcess(command, executeDirectory) {  	
 		// execute

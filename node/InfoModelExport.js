@@ -112,14 +112,14 @@ maxerr: 50, node: true */
     function executeCommand(cmd,wkdir) 
     {
 
-			var normalizedPath = wkdir; //path.Win32.normalize(wkdir);
-			console.log("Working Directory: " + normalizedPath);
+		var normalizedPath = wkdir; //path.Win32.normalize(wkdir);
+		console.log("Working Directory: " + normalizedPath);
     
     	var args = {
     		cwd: normalizedPath	
 	    }
-		  
-	    var child = exec(cmd, args, function (error, stdout, stderr) 
+		
+	    var child = exec(cmd,args,function (error, stdout, stderr) 
 	    {
 	    	      
 				if (error !== null) 

@@ -20,19 +20,25 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 
 ## Extension Installation Options
 ### #1 - StarUML Extension Manager
-0. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
-1. Open the StarUML application.
-2. Select the menu ```Tools >> Extension Manager...```
-3. Click the ```Install From Url...``` button.
-4. In the ```Install Extension``` field, enter ```http://github.com/jkanel/staruml-infomodel/archive/master.zip``` and click the ```Install``` button.
-5. The extension will automatically install.
+1. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
+2. Windows Users:
+* Ensure that the System Environment variable, JAVA_HOME, is set to the Java installation root folder.
+* Ensure that the System Environment variaible, Path, includes the %JAVA_HOME%/bin.  This will allow the java.exe to run from any path.
+3. Open the StarUML application.
+4. Select the menu ```Tools >> Extension Manager...```
+5. Click the ```Install From Url...``` button.
+6. In the ```Install Extension``` field, enter ```http://github.com/jkanel/staruml-infomodel/archive/master.zip``` and click the ```Install``` button.
+7. The extension will automatically install.
 
 ### #2 - Manual Windows Installation
-0. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
-1. Open Windows Explorer and navigate to ```C:\Users\{user}\AppData\Roaming\StarUML\extensions\user``` where ```{user}``` is your windows login user name.
-2. Download the file http://github.com/jkanel/staruml-infomodel/archive/master.zip to your local drive.
-3. Open the zip archive and extract the ```staruml-infomodel-master``` folder to the ```\extensions\user``` folder (see #1, above).
-4. The extension is now installed.
+1. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
+2. Windows Users:
+* Ensure that the System Environment variable, JAVA_HOME, is set to the Java installation root folder.
+* Ensure that the System Environment variaible, Path, includes the %JAVA_HOME%/bin.  This will allow the java.exe to run from any path.
+3. Open Windows Explorer and navigate to ```C:\Users\{user}\AppData\Roaming\StarUML\extensions\user``` where ```{user}``` is your windows login user name.
+4. Download the file http://github.com/jkanel/staruml-infomodel/archive/master.zip to your local drive.
+5. Open the zip archive and extract the ```staruml-infomodel-master``` folder to the ```\extensions\user``` folder (see #1, above).
+6. The extension is now installed.
 
 ## Customization
 The following methods of customization are supported.
