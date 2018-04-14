@@ -22,8 +22,8 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 ### #1 - StarUML Extension Manager
 1. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 2. Windows Users:
-* Ensure that the System Environment variable, JAVA_HOME, is set to the Java installation root folder.
-* Ensure that the System Environment variaible, Path, includes the %JAVA_HOME%/bin.  This will allow the java.exe to run from any path.
+    * Ensure that the System Environment variable, JAVA_HOME, is set to the Java installation root folder.
+    * Ensure that the System Environment variaible, Path, includes the %JAVA_HOME%/bin.  This will allow the java.exe to run from any path.
 3. Open the StarUML application.
 4. Select the menu ```Tools >> Extension Manager...```
 5. Click the ```Install From Url...``` button.
@@ -33,8 +33,8 @@ StarUML Extension. Generates a Centric Information Model XML and HTML file from 
 ### #2 - Manual Windows Installation
 1. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 2. Windows Users:
-* Ensure that the System Environment variable, JAVA_HOME, is set to the Java installation root folder.
-* Ensure that the System Environment variaible, Path, includes the %JAVA_HOME%/bin.  This will allow the java.exe to run from any path.
+    * Ensure that the System Environment variable, JAVA_HOME, is set to the Java installation root folder.
+    * Ensure that the System Environment variaible, Path, includes the %JAVA_HOME%/bin.  This will allow the java.exe to run from any path.
 3. Open Windows Explorer and navigate to ```C:\Users\{user}\AppData\Roaming\StarUML\extensions\user``` where ```{user}``` is your windows login user name.
 4. Download the file http://github.com/jkanel/staruml-infomodel/archive/master.zip to your local drive.
 5. Open the zip archive and extract the ```staruml-infomodel-master``` folder to the ```\extensions\user``` folder (see #1, above).
