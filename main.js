@@ -56,7 +56,7 @@ define(function (require, exports, module) {
 	
   // get xslt file
 	var InfoModelXsltFilePath = ModuleDirectory + "/centric.infomodel.xslt";
-  var InfoLibraryXsltFilePath = ModuleDirectory + "/centric.infolibrary.xslt";
+  var InfoLibraryXsltFilePath = ModuleDirectory + "/transform.xslt";
 	
 	// get source resource directory
 	var SourceResourcePath = ModuleDirectory + '/resources';
@@ -116,11 +116,6 @@ define(function (require, exports, module) {
     // extract the TargetFolderPath from the file path
     var TargetFolderPath = FileUtils.getDirectoryPath(TargetFilePath);
     var TargetFileName = FileUtils.getBaseName(TargetFilePath);
-    
-    // copy resources
-    var TargetResourcePath = TargetFolderPath + TargetResourceFolderName;
-    createFolder(TargetResourcePath);
-    //copyResources(SourceResourcePath, TargetResourcePath);
     
     // execute process
     var ProjectFilePath = ProjectManager.getFilename();
@@ -277,7 +272,7 @@ define(function (require, exports, module) {
 
     if (Repository.isModified() || !ProjectManager.getFilename()) {
       // cancel operation if document not saved
-      Dialogs.showInfoDialog("Save changes before exporting the Information Library Text File.").done(function () {
+      Dialogs.showInfoDialog("Save changes before exporting the Centric transform.").done(function () {
           result.reject(USER_CANCELED);
       });
       
@@ -286,7 +281,7 @@ define(function (require, exports, module) {
       // generate default target file name
       var DefaultTargetFilename = FileUtils.convertToWindowsFilename(ProjectManager.getProject().name + ".txt");   
       
-      FileSystem.showSaveDialog("Export Information Library Text File", null, DefaultTargetFilename, function (err, selectedPath) {
+      FileSystem.showSaveDialog("Export Centric Transform...", null, DefaultTargetFilename, function (err, selectedPath) {
           
         if (!err) {
           controlInfoLibraryExport(selectedPath).then(result.resolve, result.reject);
@@ -310,8 +305,8 @@ define(function (require, exports, module) {
   var USER_CANCELED = { userCanceled: true };
   
   // Register Commands
-  CommandManager.register("Information Model HTML...", CMD_INFO_MODEL_EXPORT, _handleInfoModelExport);
-  CommandManager.register("Information Library Text File...", CMD_INFO_LIBRARY_EXPORT, _handleInfoLibraryExport);
+  //CommandManager.register("Information Model HTML...", CMD_INFO_MODEL_EXPORT, _handleInfoModelExport);
+  CommandManager.register("Centric Transform...", CMD_INFO_LIBRARY_EXPORT, _handleInfoLibraryExport);
 
   // Setup Menus
   var menuItem = MenuManager.getMenuItem(Commands.FILE_EXPORT);
