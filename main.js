@@ -272,7 +272,7 @@ define(function (require, exports, module) {
 
     if (Repository.isModified() || !ProjectManager.getFilename()) {
       // cancel operation if document not saved
-      Dialogs.showInfoDialog("Save changes before exporting the Centric transform.").done(function () {
+      Dialogs.showInfoDialog("Save changes before exporting the Centric Information Library.").done(function () {
           result.reject(USER_CANCELED);
       });
       
@@ -281,7 +281,7 @@ define(function (require, exports, module) {
       // generate default target file name
       var DefaultTargetFilename = FileUtils.convertToWindowsFilename(ProjectManager.getProject().name + ".txt");   
       
-      FileSystem.showSaveDialog("Export Centric Transform...", null, DefaultTargetFilename, function (err, selectedPath) {
+      FileSystem.showSaveDialog("Export Centric Information Library", null, DefaultTargetFilename, function (err, selectedPath) {
           
         if (!err) {
           controlInfoLibraryExport(selectedPath).then(result.resolve, result.reject);
@@ -306,7 +306,7 @@ define(function (require, exports, module) {
   
   // Register Commands
   //CommandManager.register("Information Model HTML...", CMD_INFO_MODEL_EXPORT, _handleInfoModelExport);
-  CommandManager.register("Centric Transform...", CMD_INFO_LIBRARY_EXPORT, _handleInfoLibraryExport);
+  CommandManager.register("Centric Information Library...", CMD_INFO_LIBRARY_EXPORT, _handleInfoLibraryExport);
 
   // Setup Menus
   var menuItem = MenuManager.getMenuItem(Commands.FILE_EXPORT);
