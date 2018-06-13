@@ -8,13 +8,13 @@
     <!-- column headers --> 
     <xsl:text disable-output-escaping="yes">Subject&#x9;</xsl:text>
     <xsl:text disable-output-escaping="yes">Entity&#x9;</xsl:text>
-    <xsl:text disable-output-escaping="yes">Class&#x9;</xsl:text>
-    <xsl:text disable-output-escaping="yes">Attribute&#x9;</xsl:text>
-    <xsl:text disable-output-escaping="yes">Type&#x9;</xsl:text>
-    <xsl:text disable-output-escaping="yes">Grain&#x9;</xsl:text>
-    <xsl:text disable-output-escaping="yes">Reference&#x9;</xsl:text>    
+    <xsl:text disable-output-escaping="yes">Component&#x9;</xsl:text>
+    <xsl:text disable-output-escaping="yes">Element&#x9;</xsl:text>
     <xsl:text disable-output-escaping="yes">Multiplicity&#x9;</xsl:text>
-    <xsl:text disable-output-escaping="yes">Realization&#x9;</xsl:text>    
+    <xsl:text disable-output-escaping="yes">Element Class&#x9;</xsl:text>
+    <xsl:text disable-output-escaping="yes">Reference Entity&#x9;</xsl:text>
+    <xsl:text disable-output-escaping="yes">Grain Flag&#x9;</xsl:text>
+    <xsl:text disable-output-escaping="yes">Realization&#x9;</xsl:text>
     <xsl:text disable-output-escaping="yes">Description&#xa;</xsl:text>
 
     <!-- all instances are called separately --> 
@@ -49,25 +49,25 @@
     <xsl:value-of select="name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Class Column --> 
+    <!-- Component Column --> 
     <xsl:text disable-output-escaping="yes">Entity&#x9;</xsl:text>
 
-    <!-- Attribute Column --> 
+    <!-- Element Column --> 
     <!-- exclude attribute for classes -->
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Type Column --> 
-    <xsl:text disable-output-escaping="yes">[Reference]&#x9;</xsl:text>
+    <!-- Multiplicity Column-->
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>    
 
-    <!-- Grain Column-->
-    <xsl:if test="count(/attribute[@is-unique='true'])=0">Grain</xsl:if>
-    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
+    <!-- Element Class Column --> 
+    <xsl:text disable-output-escaping="yes">[Reference]&#x9;</xsl:text>
 
     <!-- Reference Column-->
     <xsl:value-of select="name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Multiplicity Column-->
+    <!-- Grain Column-->
+    <xsl:if test="count(/attribute[@is-unique='true'])=0">Grain</xsl:if>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
     <!-- Realization Column--> 
@@ -110,14 +110,18 @@
     <xsl:value-of select="ancestor::entity[1]/name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Class Column --> 
+    <!-- Component Column --> 
     <xsl:text disable-output-escaping="yes">Attribute&#x9;</xsl:text>
 
-    <!-- Attribute Column --> 
+    <!-- Element Column --> 
     <xsl:value-of select="name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Type Column --> 
+    <!-- Multiplicity Column-->
+    <xsl:value-of select="multiplicity"/>
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
+
+    <!-- Element Class Column --> 
     <xsl:choose>
       <xsl:when test="string-length(@reference-object-id)>0">[Reference]</xsl:when>
       <xsl:when test="//entity[@id=current()/@type-object-id]"><xsl:value-of select="//entity[@id=current()/@type-object-id]/name"/></xsl:when>
@@ -125,21 +129,18 @@
     </xsl:choose>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Grain Column-->
-    <xsl:if test="@is-unique='true'">Grain</xsl:if>
-    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
-
     <!-- Reference Column-->
     <xsl:value-of select="//entity[@id=current()/@reference-object-id]/name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Multiplicity Column-->
-    <xsl:value-of select="multiplicity"/>
+
+    <!-- Grain Column-->
+    <xsl:if test="@is-unique='true'">Grain</xsl:if>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
     <!-- Realization Column--> 
     <xsl:choose>
-    <xsl:when test="@visibility='public'">Physical</xsl:when>
+    <xsl:when test="@visibility='public' and (multiplicity = '1' or multiplicity = '0..1')">Physical</xsl:when>
     <xsl:otherwise>Virtual</xsl:otherwise>
     </xsl:choose>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
@@ -166,14 +167,17 @@
     <xsl:value-of select="ancestor::entity[1]/name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Class Column -->     
+    <!-- Component Column -->     
     <xsl:text disable-output-escaping="yes">Measure&#x9;</xsl:text>
 
-        <!-- Attribute Column --> 
+        <!-- Element Column --> 
     <xsl:value-of select="name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Type Column --> 
+    <!-- Multiplicity Column-->
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>    
+
+    <!-- Element Class Column --> 
     <xsl:choose>
       <xsl:when test="string-length(@reference-object-id)>0">[Reference]</xsl:when>
       <xsl:when test="//entity[@id=current()/@type-object-id]"><xsl:value-of select="//entity[@id=current()/@type-object-id]/name"/></xsl:when>
@@ -181,14 +185,11 @@
     </xsl:choose>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Grain Column-->
-    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
-
     <!-- Reference Column-->
     <xsl:value-of select="//entity[@id=current()/@reference-object-id]/name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Multiplicity Column-->
+    <!-- Grain Column-->
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
     <!-- Realization Column--> 
@@ -231,18 +232,18 @@
     </xsl:choose>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Class Column -->     
+    <!-- Component Column -->     
     <xsl:text disable-output-escaping="yes">Instance&#x9;</xsl:text>
 
-    <!-- Attribute Column --> 
+    <!-- Element Column --> 
     <xsl:value-of select="name"/>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Type Column --> 
-    <xsl:text disable-output-escaping="yes">[Reference]&#x9;</xsl:text>    
-
-    <!-- Grain Column -->
+    <!-- Multiplicity Column-->
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
+
+    <!-- Element Class Column --> 
+    <xsl:text disable-output-escaping="yes">[Reference]&#x9;</xsl:text>
 
     <!-- Reference Column-->
     <xsl:choose>
@@ -251,8 +252,8 @@
     </xsl:choose>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
-    <!-- Multiplicity Column-->
-    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
+    <!-- Grain Column -->
+    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>    
 
     <!-- Realization Column--> 
     <xsl:choose>
