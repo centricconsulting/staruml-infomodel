@@ -3,7 +3,7 @@
     "title": "Centric Library Export",
     "description": "Generates a Centric Library (tab-delimited text file) file or Xml from a StarUML project (mdj) file.",
     "homepage": "https://github.com/jkanel/staruml-infomodel",
-    "version": "2.0",
+    "version": "2.0.0",
     "keywords": ["xslt","transform","centric","xml","library","information","model"],
     "author": {
         "name": "Jeff Kanel",
