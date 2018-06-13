@@ -3,16 +3,16 @@ Centric Library Export StarUML Extension. Exports a Centric Library Xml or text 
 
 **NOTE: Compatible only with StarUML verion 3.0 and higher.**  For compatability with StarUML version 2.x use this repository: http://github.com/centricconsulting/staruml-infomodel-2.0.
 
+**NOTE: Requires installation of the Java Runtime Environment 1.6.0.45 (Oracle 6u45) or higher.**
+
 ## Extension Use
 1. From within StarUML, select the menu ```File >> Export >> Centric Library Transform...``` or ```File >> Export >> Centric Library Xml...```
 2. Enter a target filename and click ```Save```.
 3. The extension will automatically generate the file.
 
-**NOTE: Compatible with Java Runtime Environment 1.6.0.45 (Oracle 6u45).**
-
 ## Extension Installation Options
 ### #1 - StarUML Extension Manager
-1. Install Java 1.6 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
+1. Install Java Runtime Environment 1.6.0.45 or higher. http://www.oracle.com/technetwork/java/javase/downloads/index.html
 2. Windows Users:
     * Ensure that the System Environment variable, ```JAVA_HOME```, is set to the Java installation root folder.
     * Ensure that the System Environment variable, ```Path```, includes the ```%JAVA_HOME%\bin```.  This will allow the java.exe to run from any path.
