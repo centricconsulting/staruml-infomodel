@@ -1,17 +1,17 @@
 {
     "name": "com.centric.infomodel",
-    "title": "Centric Information Model HTML",
-    "description": "Generates a Centric Information Model XML and HTML file from a StarUML project (mdj) file.",
+    "title": "Centric Information Model Library",
+    "description": "Generates a Centric Information Model Library (tab-delimited text file) file or Xml from a StarUML project (mdj) file.",
     "homepage": "https://github.com/jkanel/staruml-infomodel",
-    "version": "0.9.0",
-    "keywords": ["html","xml","information","model"],
+    "version": "2.0",
+    "keywords": ["xslt","transform","centric","xml","information","model"],
     "author": {
         "name": "Jeff Kanel",
         "email": "jeff.kanel@centricconsulting.com",
-        "url": "https://github.com/jkanel"
+        "url": "https://github.com/centricconsulting/staruml-infomodel"
     },
     "license": "MIT",
     "engines": {
-        "staruml": ">=2.1.1"
+        "staruml": "^3.0.0"
     }
 }

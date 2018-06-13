@@ -1,0 +1,25 @@
+{
+  "menu": [
+    {
+      "id": "file.export",
+      "submenu": [
+        { "type": "separator" },
+        {
+          "label": "Centric Library Transform...",
+          "id": "file.export.centriclibrary",
+          "command": "centriclibrary:export"
+        }
+      ]
+    },
+    {
+      "id": "file.export",
+      "submenu": [
+        {
+          "label": "Centric Library Xml...",
+          "id": "file.export.centricxml",
+          "command": "centricxml:export"
+        }
+      ]
+    }
+  ]
+}
