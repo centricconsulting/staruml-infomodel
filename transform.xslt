@@ -140,7 +140,7 @@
 
     <!-- Realization Column--> 
     <xsl:choose>
-    <xsl:when test="@visibility='public' and (multiplicity = '1' or multiplicity = '0..1')">Physical</xsl:when>
+    <xsl:when test="@visibility='public' and parent::*/@visibility='public' and (multiplicity = '1' or multiplicity = '0..1')">Physical</xsl:when>
     <xsl:otherwise>Virtual</xsl:otherwise>
     </xsl:choose>
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
@@ -193,11 +193,7 @@
     <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>
 
     <!-- Realization Column--> 
-    <xsl:choose>
-    <xsl:when test="@visibility='public'">Physical</xsl:when>
-    <xsl:otherwise>Virtual</xsl:otherwise>
-    </xsl:choose>
-    <xsl:text disable-output-escaping="yes">&#x9;</xsl:text>    
+    <xsl:text disable-output-escaping="yes">Virtual&#x9;</xsl:text>    
     
     <!-- Description Column -->
     <xsl:value-of select="normalize-space(description)"/>
